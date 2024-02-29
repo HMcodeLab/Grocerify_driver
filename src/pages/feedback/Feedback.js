@@ -161,25 +161,6 @@ const Feedback = ({ rating }) => {
                 </div>
               </div>
             </div>
-            {/* <div className="flex flex-row gap-3 rounded-md shadow-md py-4 px-4 items-center">
-              <User2 />
-              <div className="flex flex-col">
-                <p className="text-[#333333] text-[16px] font-Montserrat">
-                  Bashir Siddiqui
-                </p>
-                <div className="flex gap-1">
-                  {stars.map((star) => (
-                    <FaStar
-                      key={star}
-                      color={star <= userRating ? "#FFD700" : "#A19797"}
-                      size={18}
-                      onClick={() => handleStarClick(star)}
-                      style={{ cursor: "pointer" }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
