@@ -111,7 +111,7 @@ const Profile = ({ rating }) => {
                 </p>
                 <p className="text-[#000000] text-[12px] font-Montserrat ">Balance & Payout</p>
               </div>
-              <p className="text-2xl font-bold"> {" > "} </p>
+              <Link to={"/earnings"} className="text-2xl font-bold"> {" > "} </Link>
             </div>
           </div>
           <div className="flex flex-col gap-2">
