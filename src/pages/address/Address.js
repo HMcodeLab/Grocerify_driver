@@ -1,4 +1,5 @@
 import React from "react";
+import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ReactComponent as Pic } from "../../assests/icons/pic.svg";
 import { ReactComponent as Pencil } from "../../assests/icons/pencil.svg";
@@ -41,7 +42,7 @@ const Address = () => {
             <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
               Rating
             </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat">4.5</p>
+            <p className="text-[#777777] text-[14px] font-Montserrat flex flex-row gap-1 items-center">4.5<span><FaStar color="#FFC300" /></span></p>
           </div>
           <div className="flex flex-col items-center">
             <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
@@ -59,8 +60,7 @@ const Address = () => {
             <div className="flex flex-row items-center gap-2">
                 <Loc className="w-[30px] h-[30px]" />
                 <div className="flex flex-col">
-                    <p className="text-[#333333] text-[18px] font-Montserrat">Phone Number</p>
-                    <p className="text-[#979797] text-[14px] font-Plus Jakarta Sans">537845794364</p>
+                    <p className="text-[#333333] text-[18px] font-Montserrat leading-6">150th Street, Near Cascade Restaurant</p>
                 </div>
             </div>
             <div>
@@ -71,8 +71,7 @@ const Address = () => {
             <div className="flex flex-row items-center gap-2">
                 <Add className="w-[30px] h-[25px]" />
                 <div className="flex flex-col">
-                    <p className="text-[#333333] text-[18px] font-Montserrat">Add phone Number</p>
-                    {/* <p className="text-[#979797] text-[14px] font-Plus Jakarta Sans">Name</p> */}
+                    <p className="text-[#333333] text-[18px] font-Montserrat">Add Address</p>
                 </div>
             </div>
           </div>

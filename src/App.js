@@ -5,6 +5,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import MyActivity from "./pages/myActivity/MyActivity";
+import Accept from "./pages/accept/Accept";
+import Map1 from "./pages/map1/Map1";
+import PickedUp from "./pages/pickedUp/PickedUp";
 import Profile from "./pages/profile/Profile";
 import MyInfo from "./pages/myInfo/MyInfo";
 import Contact from "./pages/contact/Contact";
@@ -19,6 +22,9 @@ function App() {
         <Route exact path={"/"} element={<Login />}></Route>
         <Route exact path={"/register"} element={<Register />}></Route>
         <Route exact path={"/myActivity"} element={<MyActivity />}></Route>
+        <Route exact path={"/accept"} element={<Accept />}></Route>
+        <Route exact path={"/map1"} element={<Map1 />}></Route>
+        <Route exact path={"/pickedUp"} element={<PickedUp />}></Route>
         <Route exact path={"/profile"} element={<Profile />}></Route>
         <Route exact path={"/myInfo"} element={<MyInfo />}></Route>
         <Route exact path={"/contact"} element={<Contact />}></Route>

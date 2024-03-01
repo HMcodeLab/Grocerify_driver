@@ -9,7 +9,7 @@ import { ReactComponent as User2 } from "../../assests/icons/user2.svg";
 const Star = ({ selected, onSelect }) => {
   return (
     <FaStar
-      color={selected ? "#FFD700" : "#A19797"}
+      color={selected ? "#FFC300" : "#A19797"}
       size={18}
       onClick={onSelect}
       style={{ cursor: "pointer" }}
@@ -60,7 +60,7 @@ const Feedback = ({ rating }) => {
             <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
               Rating
             </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat">4.5</p>
+            <p className="text-[#777777] text-[14px] font-Montserrat flex flex-row gap-1 items-center">4.5<span><FaStar color="#FFC300" /></span></p>
           </div>
           <div className="flex flex-col items-center">
             <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">

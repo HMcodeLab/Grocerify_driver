@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-// my balance
 // last 3 data
+// cash out
 
 const Earnings = () => {
   return (
@@ -23,7 +23,7 @@ const Earnings = () => {
         {/*  */}
         <div className="flex flex-row justify-between px-8">
           <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-extrabold">My Balance</p>
+            <p className="text-[#333333] text-[16px] font-Montserrat font-extrabold">Date</p>
             <p className="text-[#333333A3] text-[12px] font-Montserrat">Mar 25, 2021</p>
           </div>
           <div className="flex flex-col items-center">

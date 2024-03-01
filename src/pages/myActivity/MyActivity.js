@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "../../components/header/Header";
 import "../myActivity/myActivity.css";
 import { ReactComponent as Loc } from "../../assests/icons/location.svg";
 import { ReactComponent as Shop } from "../../assests/icons/shop.svg";
 import { ReactComponent as Time } from "../../assests/icons/time.svg";
+
+
+// accept delivery - accept
 
 const MyActivity = () => {
   const [location, setLocation] = useState(null);
@@ -59,7 +63,6 @@ const MyActivity = () => {
   };
 
   const renderCards = () => {
-    // You can customize this logic based on your requirements
     switch (selectedStatus) {
       case "To Deliver":
         return (
@@ -69,9 +72,11 @@ const MyActivity = () => {
                 <p className="text-[#333333] text-[18px] font-Montserrat font-black">
                   # ORDER5673
                 </p>
+                <Link to={"/accept"}>
                 <button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
                   Accept Delivery <br /> ₹400
                 </button>
+                </Link>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2 items-center">
@@ -123,9 +128,10 @@ const MyActivity = () => {
                 <p className="text-[#333333] text-[18px] font-Montserrat font-black">
                   # ORDER5673
                 </p>
+                <Link to={"/accept"}>
                 <button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
                   Accept Delivery <br /> ₹400
-                </button>
+                </button></Link>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2 items-center">
@@ -177,9 +183,10 @@ const MyActivity = () => {
                 <p className="text-[#333333] text-[18px] font-Montserrat font-black">
                   # ORDER5673
                 </p>
+                <Link to={"/accept"}>
                 <button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
                   Accept Delivery <br /> ₹400
-                </button>
+                </button></Link>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2 items-center">
@@ -231,9 +238,10 @@ const MyActivity = () => {
                 <p className="text-[#333333] text-[18px] font-Montserrat font-black">
                   # ORDER5673
                 </p>
+                <Link to={"/accept"}>
                 <button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
                   Accept Delivery <br /> ₹400
-                </button>
+                </button></Link>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2 items-center">
@@ -290,9 +298,10 @@ const MyActivity = () => {
                 <p className="text-[#333333] text-[18px] font-Montserrat font-black">
                   # ORDER1002
                 </p>
+                <Link to={"/accept"}>
                 <button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
                   Accept Delivery <br /> ₹400
-                </button>
+                </button></Link>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2 items-center">
@@ -344,9 +353,10 @@ const MyActivity = () => {
                 <p className="text-[#333333] text-[18px] font-Montserrat font-black">
                   # ORDER1002
                 </p>
+                <Link to={"/accept"}>
                 <button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
                   Accept Delivery <br /> ₹400
-                </button>
+                </button></Link>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2 items-center">
@@ -398,9 +408,10 @@ const MyActivity = () => {
                 <p className="text-[#333333] text-[18px] font-Montserrat font-black">
                   # ORDER1002
                 </p>
+                <Link to={"/accept"}>
                 <button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
                   Accept Delivery <br /> ₹400
-                </button>
+                </button></Link>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2 items-center">
@@ -457,9 +468,10 @@ const MyActivity = () => {
                 <p className="text-[#333333] text-[18px] font-Montserrat font-black">
                   # ORDER8002
                 </p>
+                <Link to={"/accept"}>
                 <button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
                   Accept Delivery <br /> ₹400
-                </button>
+                </button></Link>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2 items-center">
@@ -511,9 +523,10 @@ const MyActivity = () => {
                 <p className="text-[#333333] text-[18px] font-Montserrat font-black">
                   # ORDER8002
                 </p>
+                <Link to={"/accept"}>
                 <button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
                   Accept Delivery <br /> ₹400
-                </button>
+                </button></Link>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-2 items-center">

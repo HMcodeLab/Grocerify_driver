@@ -1,17 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom"
 import { FaStar } from "react-icons/fa";
 import { ReactComponent as Pic } from "../../assests/icons/pic.svg";
-import { ReactComponent as User2 } from "../../assests/icons/user2.svg";
 
-const Profile = ({ rating }) => {
-    const [userRating, setUserRating] = useState(rating);
-    const stars = Array.from({ length: 5 }, (_, index) => index + 1);
-  
-    const handleStarClick = (clickedStar) => {
-      // You can add logic here to send the new rating to your backend or perform other actions
-      setUserRating(clickedStar);
-    };
+// my stats left
+
+const Profile = () => {
 
   return (
     <div className="flex justify-center">
@@ -45,7 +39,7 @@ const Profile = ({ rating }) => {
             <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
               Rating
             </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat">4.5</p>
+            <p className="text-[#777777] text-[14px] font-Montserrat flex flex-row gap-1 items-center">4.5<span><FaStar color="#FFC300" /></span></p>
           </div>
           <div className="flex flex-col items-center">
             <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
@@ -57,7 +51,7 @@ const Profile = ({ rating }) => {
           </div>
         </div>
 
-        {/* feedback */}
+        {/*  */}
         <div className="flex flex-col gap-4 px-[2%] mt-6">
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-3 justify-between shadow-md py-3 px-4 items-center">
