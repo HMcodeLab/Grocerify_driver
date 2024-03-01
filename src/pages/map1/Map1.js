@@ -23,13 +23,13 @@ const Map1 = () => {
     navigate("/pickedUp");
   };
 
-  const [isEarnReferModalOpen, setEarnReferModalOpen] = useState(false);
-  const openEarnReferModal = () => {
-    setEarnReferModalOpen(true);
+  const [isOpen, setOpen] = useState(false);
+  const openModel = () => {
+    setOpen(true);
   };
 
-  const closeEarnReferModal = () => {
-    setEarnReferModalOpen(false);
+  const closeModel = () => {
+    setOpen(false);
   };
 
   const handleDeclineClick = () => {
@@ -41,7 +41,7 @@ const Map1 = () => {
     <div className="flex justify-center">
       <div
         className={`flex flex-col w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content ${
-          isEarnReferModalOpen ? "blur" : ""
+          isOpen ? "blur" : ""
         }`}
       >
         <Header />
@@ -54,7 +54,7 @@ const Map1 = () => {
             height: "932px",
           }}
         >
-          <div onClick={openEarnReferModal}>
+          <div onClick={openModel}>
             <button className="text-[#FFFFFF] text-[16px] font-Inter bg-[#C7C3CA] rounded-lg py-1 px-6 mt-4 ml-6 w-[25%]">
               Decline
             </button>
@@ -79,7 +79,7 @@ const Map1 = () => {
           </div>
         </div>
       </div>
-      {isEarnReferModalOpen && (
+      {isOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 ">
           <div className=" bg-white bg-opacity-90 rounded-3xl flex flex-col w-[352px] h-[187.16px] justify-center gap-8 items-center ">
             <p className="text-[#000000] text-[16.39px] font-Montserrat font-semibold w-[70%] text-center">
@@ -88,7 +88,7 @@ const Map1 = () => {
             <div className="flex flex-row justify-between gap-8">
               <button
                 className="text-[#FFFFFF] text-[16px] font-Montserrat bg-[#57AF11] rounded-lg px-4 h-[40.98px] w-[122.04px]"
-                onClick={closeEarnReferModal}
+                onClick={closeModel}
               >
                 CONTINUE
               </button>
