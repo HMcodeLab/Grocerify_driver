@@ -4,7 +4,7 @@ import Header from "../../components/header/Header";
 import MapImg from "../../assests/images/map.png";
 import DeliverImg from "../../assests/images/deliver.png";
 
-// delivered - pop up done ------- back to orders(my activity)
+// delivered - pop up (done) ------- back to orders(my activity)
 
 const PickedUp = () => {
   const navigate = useNavigate();
