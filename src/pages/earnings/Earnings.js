@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 
 const Earnings = () => {
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col gap-6 w-[430px] h-[840px] my-[3%] px-[1%] py-[1%] overflow-y-auto">
+    <div className="flex justify-center bg-gray-100">
+      <div className="flex flex-col gap-6 w-[430px] h-[840px] my-[3%] px-[1%] py-[1%] overflow-y-auto bg-white">
         {/* head */}
         <div className="flex flex-row gap-20 items-end">
           <Link

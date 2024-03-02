@@ -10,37 +10,35 @@ import { ReactComponent as Bank } from "../../assests/icons/bank2.svg";
 // pickup - open pop up ------ pickup(pickedup)
 
 const Map1 = () => {
-  const [isDeclined, setDeclined] = useState(false);
   const navigate = useNavigate();
-
+  
   const [isPickedup, setPickedup] = useState(false);
   const openPickedup = () => {
     setPickedup(true);
   };
-
   const closePickedup = () => {
     setPickedup(false);
     navigate("/pickedUp");
   };
-
+  
   const [isOpen, setOpen] = useState(false);
   const openModel = () => {
     setOpen(true);
   };
-
   const closeModel = () => {
     setOpen(false);
   };
-
+  
+  const [isDeclined, setDeclined] = useState(false);
   const handleDeclineClick = () => {
     setDeclined(true);
     navigate("/myActivity");
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center bg-gray-100">
       <div
-        className={`flex flex-col w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content ${
+        className={`flex flex-col w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white ${
           isOpen ? "blur" : ""
         }`}
       >

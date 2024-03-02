@@ -581,8 +581,8 @@ const MyActivity = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col gap-8 w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content">
+    <div className="flex justify-center bg-gray-100">
+      <div className="flex flex-col gap-8 w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white">
         <Header />
         <div className="flex flex-row justify-between px-5 items-center">
           <p className="text-[#333333] text-[20px] font-Gorditas font-semibold flex text-center">

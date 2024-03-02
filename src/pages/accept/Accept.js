@@ -25,9 +25,9 @@ const Accept = () => {
   
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center bg-gray-100">
       <div
-        className={`flex flex-col w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content`}
+        className={`flex flex-col w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white`}
       >
         <Header />
         <div

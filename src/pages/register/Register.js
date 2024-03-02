@@ -36,9 +36,9 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center bg-gray-100">
       <div
-        className="flex flex-col gap-8 w-[430px] h-[840px] my-[3%] pb-60 overflow-y-auto scrollable-content"
+        className="flex flex-col gap-8 w-[430px] h-[840px] my-[3%] pb-60 pt-6 overflow-y-auto scrollable-content bg-white"
         style={{
           backgroundImage: `url(${Bg})`,
           backgroundSize: "300px auto",

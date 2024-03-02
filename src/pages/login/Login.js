@@ -13,8 +13,8 @@ const Login = () => {
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col gap-8 w-[430px] h-[840px] my-[3%] items-center py-[3%] overflow-y-auto">
+    <div className="flex justify-center bg-gray-100">
+      <div className="flex flex-col gap-8 w-[430px] h-[840px] my-[3%] items-center py-[3%] overflow-y-auto bg-white">
         <p className="text-[#333333] text-[23.68px] font-Gorditas font-semibold pb-2">
           Hi, Welcome Back!
         </p>
