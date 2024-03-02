@@ -3,6 +3,9 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/login/Login";
+import SendOtp from "./pages/login/SendOtp";
+import ForgotPassword from "./pages/login/ForgotPassword";
+import NewPassword from "./pages/login/NewPassword";
 import Register from "./pages/register/Register";
 import MyActivity from "./pages/myActivity/MyActivity";
 import Accept from "./pages/accept/Accept";
@@ -20,6 +23,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route exact path={"/"} element={<Login />}></Route>
+        <Route exact path={"/sendOtp"} element={<SendOtp />}></Route>
+        <Route exact path={"/forgotPassword"} element={<ForgotPassword />}></Route>
+        <Route exact path={"/newPassword"} element={<NewPassword />}></Route>
         <Route exact path={"/register"} element={<Register />}></Route>
         <Route exact path={"/myActivity"} element={<MyActivity />}></Route>
         <Route exact path={"/accept"} element={<Accept />}></Route>

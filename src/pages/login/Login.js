@@ -12,6 +12,10 @@ const Login = () => {
     navigate("/myActivity");
   }
 
+  const handleSendOTP = () => {
+    navigate("/sendOtp");
+  }
+
   return (
     <div className="flex justify-center bg-gray-100">
       <div className="flex flex-col gap-8 w-[430px] h-[840px] my-[3%] items-center py-[3%] overflow-y-auto bg-white">
@@ -76,13 +80,13 @@ const Login = () => {
               </div>
               {/* Forgot password link */}
               <div className="flex flex-row justify-end">
-                <p
-                  to={"/forgetpassword"}
+                <Link
+                  to={"/forgotpassword"}
                   className="text-[12px] text-[#333333] font-Montserrat cursor-pointer"
                   // onClick={handleForgotPassword}
                 >
                   Forgot password?
-                </p>
+                </Link>
               </div>
             </div>
           ) : (
@@ -120,7 +124,7 @@ const Login = () => {
           {switchBtn == 2 && (
             <div className="flex justify-center pt-4">
               <button
-                // onClick={handleSendOTP}
+                onClick={handleSendOTP}
                 className="text-[#FFFFFF] font-bold text-[18px] shadow-xl font-Inter bg-[#58B310] rounded-lg pl-6 pr-6 pt-1 pb-1 hover:scale-105 transition-transform duration-300 ease-in-out"
               >
                 Send OTP
