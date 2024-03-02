@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as Fb } from "../../assests/icons/fb.svg"
 import { ReactComponent as Google } from "../../assests/icons/Google.svg"
@@ -15,6 +15,29 @@ const Login = () => {
   const handleSendOTP = () => {
     navigate("/sendOtp");
   }
+
+  // useEffect(() => {
+  //   window.gapi.load('auth2', () => {
+  //     window.gapi.auth2.init({
+  //       client_id: 'YOUR_GOOGLE_CLIENT_ID',
+  //     });
+  //   });
+  // }, []);
+
+  // const handleGoogleSignIn = () => {
+  //   const auth2 = window.gapi.auth2.getAuthInstance();
+  //   auth2.signIn().then(
+  //     (googleUser) => {
+  //       const profile = googleUser.getBasicProfile();
+  //       console.log('ID: ' + profile.getId()); 
+  //       console.log('Name: ' + profile.getName()); 
+  //       console.log('Email: ' + profile.getEmail()); 
+  //     },
+  //     (error) => {
+  //       console.error('Google Sign-In Error', error);
+  //     }
+  //   );
+  // };
 
   return (
     <div className="flex justify-center bg-gray-100">
@@ -52,13 +75,6 @@ const Login = () => {
                   placeholder="Enter Your Email"
                   name="email"
                   className="w-[347.3px] h-[45.68px] shadow-xl text-[#A19797] text-[14.19px] fonr-Montserrat px-4 outline-none"
-                  // value={user.email}
-                  // onChange={(e) =>
-                  // 	setUser({
-                  // 		...user,
-                  // 		email: e.target.value,
-                  // 	})
-                  // }
                 />
               </div>
               {/* Password input */}
@@ -69,13 +85,6 @@ const Login = () => {
                   placeholder="Enter Your Password"
                   name="password"
                   className="w-[347.3px] h-[45.68px] shadow-xl text-[#A19797] text-[14.19px] fonr-Montserrat px-4 outline-none"
-                  // value={user.password}
-                  // onChange={(e) =>
-                  // 	setUser({
-                  // 		...user,
-                  // 		password: e.target.value,
-                  // 	})
-                  // }
                 />
               </div>
               {/* Forgot password link */}
@@ -83,7 +92,6 @@ const Login = () => {
                 <Link
                   to={"/forgotpassword"}
                   className="text-[12px] text-[#333333] font-Montserrat cursor-pointer"
-                  // onClick={handleForgotPassword}
                 >
                   Forgot password?
                 </Link>
@@ -99,13 +107,6 @@ const Login = () => {
                   placeholder="Enter Your Number"
                   name="mobile"
                   className="w-[347.3px] h-[45.68px] shadow-xl text-[#A19797] text-[14.19px] fonr-Montserrat px-4"
-                  // value={user.mobile}
-                  // onChange={(e) =>
-                  // 	setUser({
-                  // 		...user,
-                  // 		mobile: e.target.value,
-                  // 	})
-                  // }
                 />
               </div>
             </div>
@@ -136,11 +137,13 @@ const Login = () => {
             <p>or</p>
           </div>
           <div className="flex flex-col gap-4">
-            <div className="flex flex-row gap-2 justify-center items-center">
+            <div className="flex flex-row gap-2 justify-center items-center" >
                 <Fb className="w-[25px] h-[25px]" />
                 <p className="text-[#333333] text-[12px] font-Montserrat">Sign up with Facebook</p>
             </div>
-            <div className="flex flex-row gap-2 justify-center items-center">
+            <div className="flex flex-row gap-2 justify-center items-center"
+            // onClick={handleGoogleSignIn}
+            >
                 <Google className="w-[25px] h-[25px]" />
                 <p className="text-[#333333] text-[12px] font-Montserrat">Sign up with Goggle</p>
             </div>
