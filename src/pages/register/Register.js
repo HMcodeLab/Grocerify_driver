@@ -62,15 +62,27 @@ const Register = () => {
 
         {/* fields */}
         <div className="flex flex-col gap-6 px-5">
-          {/* Full name */}
+          {/* First name */}
           <div className="flex flex-col">
             <p className="text-[#333333] text-[16.21px] font-Montserrat">
-              Full Name
+              First Name
             </p>
             <input
               type="text"
-              placeholder="Full Name"
-              name="email"
+              placeholder="First Name"
+              name="firstName"
+              className=" h-[45.68px] shadow-xl text-[#A19797] text-[14.19px] fonr-Montserrat px-2 outline-none"
+            />
+          </div>
+          {/* Last name */}
+          <div className="flex flex-col">
+            <p className="text-[#333333] text-[16.21px] font-Montserrat">
+              Last Name
+            </p>
+            <input
+              type="text"
+              placeholder="Last Name"
+              name="lastName"
               className=" h-[45.68px] shadow-xl text-[#A19797] text-[14.19px] fonr-Montserrat px-2 outline-none"
             />
           </div>
@@ -178,18 +190,6 @@ const Register = () => {
             <input
               type="text"
               placeholder="Experience"
-              name="email"
-              className=" h-[45.68px] shadow-xl text-[#A19797] text-[14.19px] fonr-Montserrat px-2 outline-none"
-            />
-          </div>
-          {/* Availability */}
-          <div className="flex flex-col">
-            <p className="text-[#333333] text-[16.21px] font-Montserrat">
-              Availability
-            </p>
-            <input
-              type="text"
-              placeholder="Availability"
               name="email"
               className=" h-[45.68px] shadow-xl text-[#A19797] text-[14.19px] fonr-Montserrat px-2 outline-none"
             />
