@@ -3,8 +3,8 @@ import {jwtDecode} from 'jwt-decode';
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN || 'http://localhost:8080';
 
 /** To get data from Token */
+const token = localStorage.getItem('token')
 export async function getDataFromToken(){
-    const token = localStorage.getItem('token')
     if(!token) return Promise.reject("Cannot find Token");
     let decode = jwtDecode(token)
     return decode;
@@ -19,6 +19,20 @@ export async function getDeliveryboy({ email }){
         return { data };
     } catch (error) {
         return { error : "User not found!"}
+    }
+}
+
+/** get getdeliveryorders */
+export async function getdeliveryorders(){
+    try {
+        const { data } = await axios.get(`/api/getdeliveryorders`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return { data };
+    } catch (error) {
+        return { error: "Data not found!" };
     }
 }
 

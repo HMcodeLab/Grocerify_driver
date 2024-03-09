@@ -28,7 +28,7 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center bg-gray-100">
-      <div className="flex flex-col gap-4 w-[430px] h-[840px] my-[3%] px-[1%] py-[1%] overflow-y-auto bg-white">
+      <div className="flex flex-col gap-4 w-[430px] h-[880px] my-[3%] px-[1%] py-[1%] overflow-y-auto bg-white">
         {/* head */}
         <div className="flex flex-row gap-24">
           <Link to={"/myactivity"} className="text-[#000000] text-5xl font-bold"> {" < "} </Link>
@@ -73,7 +73,7 @@ const Profile = () => {
               <Link to={"/address"} className="text-2xl font-bold"> {" > "} </Link>
             </div>
           </div>
-          <div className="flex flex-col gap-2">
+          {/* <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-3 justify-between shadow-md py-3 px-4 items-center">
               <div className="flex flex-col">
                 <p className="text-[#000000] text-[18px] font-Montserrat font-bold">
@@ -83,7 +83,7 @@ const Profile = () => {
               </div>
               <p className="text-2xl font-bold"> {" > "} </p>
             </div>
-          </div>
+          </div> */}
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-3 justify-between shadow-md py-3 px-4 items-center">
               <div className="flex flex-col">
