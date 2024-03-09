@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import DeliveryboyNav from "../../components/DeliveryboyNav/DeliveryboyNav";
+import { getDataFromToken, getDeliveryboy } from "../../helper/helper";
 
 // last 3 data
 // cash out
 
 const Earnings = () => {
+  const [info, setInfo] = useState(null)
+  async function getData() {
+    const {email} = await getDataFromToken()
+    const data = await getDeliveryboy({email})
+    setInfo(data.data.data)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
   return (
     <div className="flex justify-center bg-gray-100">
       <div className="flex flex-col gap-6 w-[430px] h-[840px] my-[3%] px-[1%] py-[1%] overflow-y-auto bg-white">
@@ -21,16 +34,7 @@ const Earnings = () => {
         </div>
 
         {/*  */}
-        <div className="flex flex-row justify-between px-8">
-          <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-extrabold">Date</p>
-            <p className="text-[#333333A3] text-[12px] font-Montserrat">Mar 25, 2021</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-extrabold">Experience</p>
-            <p className="text-[#333333A3] text-[12px] font-Montserrat">6 Years</p>
-          </div>
-        </div>
+        <DeliveryboyNav info={info}/>
 
         {/* cash */}
         <div className="flex flex-row justify-between items-center px-4">

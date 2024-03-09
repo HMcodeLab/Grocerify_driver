@@ -1,11 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom"
 import { FaStar } from "react-icons/fa";
 import { ReactComponent as Pic } from "../../assests/icons/pic.svg";
+import Deliveryboyheader from "../../components/Deliveryboyheader/Deliveryboyheader";
+import { getDataFromToken, getDeliveryboy } from "../../helper/helper";
+import DeliveryboyNav from "../../components/DeliveryboyNav/DeliveryboyNav";
 
 // my stats left
 
 const Profile = () => {
+  const [info, setInfo] = useState(null)
+  async function getData() {
+    const {email} = await getDataFromToken()
+    const data = await getDeliveryboy({email})
+    setInfo(data.data.data)
+  }
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+  function handlelogout() {
+    localStorage.removeItem('token')
+  }
 
   return (
     <div className="flex justify-center bg-gray-100">
@@ -13,43 +32,11 @@ const Profile = () => {
         {/* head */}
         <div className="flex flex-row gap-24">
           <Link to={"/myactivity"} className="text-[#000000] text-5xl font-bold"> {" < "} </Link>
-          <div className="flex flex-col items-center gap-1 pt-4">
-            <Pic />
-            <p className="text-[#303030] text-[16px] font-Montserrat font-bold">
-              Utku Kenagzai
-            </p>
-            <p className="text-[#303030] text-[16px] font-Montserrat">
-              Shift status: <span className="text-[#06B178]">Active</span>
-            </p>
-            <p className="text-[#777777] text-[12px] font-Montserrat">
-              #utku1969
-            </p>
-          </div>
+          <Deliveryboyheader info={info}/>
         </div>
 
         {/* nav */}
-        <div className="flex flex-row justify-between px-[2%]">
-          <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
-              Total Rides
-            </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat">121</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
-              Rating
-            </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat flex flex-row gap-1 items-center">4.5<span><FaStar color="#FFC300" /></span></p>
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
-              Experience
-            </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat">
-              6 Years
-            </p>
-          </div>
-        </div>
+        <DeliveryboyNav info={info} />
 
         {/*  */}
         <div className="flex flex-col gap-4 px-[2%] mt-6">
@@ -117,6 +104,16 @@ const Profile = () => {
                 <p className="text-[#000000] text-[12px] font-Montserrat ">Overview</p>
               </div>
               <Link to={"/feedback"} className="text-2xl font-bold"> {" > "} </Link>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-row gap-3 justify-between shadow-md py-3 px-4 items-center">
+              <div className="flex flex-col">
+                <p className="text-[#000000] text-[18px] font-Montserrat font-bold">
+                Logout
+                </p>
+              </div>
+              <Link to={"/"} onClick={handlelogout} className="text-2xl font-bold"> {" > "} </Link>
             </div>
           </div>
         </div>

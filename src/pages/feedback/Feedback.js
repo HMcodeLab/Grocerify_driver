@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { ReactComponent as Pic } from "../../assests/icons/pic.svg";
 import { ReactComponent as User2 } from "../../assests/icons/user2.svg";
+import { getDataFromToken, getDeliveryboy } from "../../helper/helper";
+import Deliveryboyheader from "../../components/Deliveryboyheader/Deliveryboyheader";
+import DeliveryboyNav from "../../components/DeliveryboyNav/DeliveryboyNav";
 
 // work on stars
 
@@ -24,6 +27,17 @@ const Feedback = ({ rating }) => {
     const newRatings = userRatings.map((r, i) => (i === index ? rating : r));
     setUserRatings(newRatings);
   };
+  
+  const [info, setInfo] = useState(null)
+  async function getData() {
+    const {email} = await getDataFromToken()
+    const data = await getDeliveryboy({email})
+    setInfo(data.data.data)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   return (
     <div className="flex justify-center bg-gray-100">
@@ -34,43 +48,11 @@ const Feedback = ({ rating }) => {
             {" "}
             {" < "}{" "}
           </Link>
-          <div className="flex flex-col items-center gap-1 pt-4">
-            <Pic />
-            <p className="text-[#303030] text-[16px] font-Montserrat font-bold">
-              Utku Kenagzai
-            </p>
-            <p className="text-[#303030] text-[16px] font-Montserrat">
-              Shift status: <span className="text-[#06B178]">Active</span>
-            </p>
-            <p className="text-[#777777] text-[12px] font-Montserrat">
-              #utku1969
-            </p>
-          </div>
+          <Deliveryboyheader info={info} />
         </div>
 
         {/* nav */}
-        <div className="flex flex-row justify-between px-[2%]">
-          <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
-              Total Rides
-            </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat">121</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
-              Rating
-            </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat flex flex-row gap-1 items-center">4.5<span><FaStar color="#FFC300" /></span></p>
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
-              Experience
-            </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat">
-              6 Years
-            </p>
-          </div>
-        </div>
+        <DeliveryboyNav info={info} />
 
         {/* feedback */}
         <div className="flex flex-col gap-4 px-[2%] mt-4">
