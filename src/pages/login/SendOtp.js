@@ -1,11 +1,44 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import toast, { Toaster } from 'react-hot-toast'
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { verifyDeliveryboyLoginMobileOTP } from "../../helper/helper";
 
 const SendOTP = () => {
   const navigate = useNavigate();
+  const [getOTP, setOTP] = useState()
+  const [searchParams, setSearchParams] = useSearchParams();
+  const mobile = searchParams.get("mobile")
 
   const handleOtp = () => {
-    navigate("/myActivity");
+    if (!getOTP) {
+      return
+    }
+    let otpPromise = verifyDeliveryboyLoginMobileOTP({
+      mobile: mobile.toString(),
+      otp: getOTP.toString(),
+    })
+
+    toast.promise(otpPromise, {
+      loading: 'Loading',
+      success: 'Login Successful',
+      error: 'Wrong OTP!',
+    })
+
+    otpPromise.then((data) => {
+      console.log(data);
+      if (data?.data) {
+        localStorage.setItem('token', data.data.token)
+        if (!data.data.verified) {
+          toast.error(
+            'Account not verified yet. Kindly wait until it get verified.',
+            { duration: 5000 }
+          )
+        } else {
+          navigate("/myActivity");
+          toast.success('Login Successful')
+        }
+      }
+    })
   };
   
   return (
@@ -21,10 +54,14 @@ const SendOTP = () => {
           <p className="flex justify-center text-[#323030] text-[16px]">OTP sent to your mobile number...</p>
           <div className="flex flex-row shadow-xl">
             <input
-              type="password"
+              type="text"
               placeholder="OTP*"
               name="password"
               className=" h-[45.68px] w-[80%] text-[#A19797] text-[14.19px] font-Montserrat px-2 outline-none"
+              onChange={(e)=>{
+                setOTP(e.target.value)
+              }}
+              value={getOTP}
             />
           </div>
         </div>

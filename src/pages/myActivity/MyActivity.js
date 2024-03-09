@@ -5,7 +5,7 @@ import "../myActivity/myActivity.css";
 import { ReactComponent as Loc } from "../../assests/icons/location.svg";
 import { ReactComponent as Shop } from "../../assests/icons/shop.svg";
 import { ReactComponent as Time } from "../../assests/icons/time.svg";
-
+import toast, { Toaster } from 'react-hot-toast'
 
 // accept delivery - accept
 
@@ -581,6 +581,8 @@ const MyActivity = () => {
   };
 
   return (
+    <>
+    <Toaster position="top-right" />
     <div className="flex justify-center bg-gray-100">
       <div className="flex flex-col gap-8 w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white">
         <Header />
@@ -644,6 +646,7 @@ const MyActivity = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

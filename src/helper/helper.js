@@ -16,7 +16,7 @@ export async function getDeliveryboy({ email }){
 export async function deliveryboyLoginWithEmail({email, password}){
     try {
         if(email){
-            const { data } = await axios.post('/api/sellerloginwithemail', {email, password})
+            const { data } = await axios.post('/api/deliveryboyLoginWithEmail', {email, password})
             return ({ data });
         }
     } catch (error) {
