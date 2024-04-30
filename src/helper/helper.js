@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN || 'https://gr-backend-temp.onrender.com';
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN || 'https://api.hopingminds.co.in/';
 
 /** To get data from Token */
 const token = localStorage.getItem('token')
