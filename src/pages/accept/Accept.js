@@ -1,23 +1,36 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Header from "../../components/header/Header";
 import MapImg from "../../assests/images/map2.png";
 import { ReactComponent as Loc } from "../../assests/icons/location.svg";
 import { ReactComponent as Burger } from "../../assests/icons/burger.svg";
 import { ReactComponent as Bank } from "../../assests/icons/bank2.svg";
 import { ReactComponent as Note } from "../../assests/icons/note.svg";
+import { acceptdeliveryboyorder, getDataFromToken } from "../../helper/helper";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 
 // decline - back myactivity
 // accept - map1
 
 const Accept = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isAccept, setAccept] = useState(false);
-  const openAccept = () => {
-    setAccept(true);
-    navigate("/map1");
-  };
   const [isDecline, setDecline] = useState(false);
+  
+  let id = searchParams.get("id")
+  const openAccept = async () => {
+    setAccept(true);
+    const {email} = await getDataFromToken()
+    const acceptPromise = acceptdeliveryboyorder(id, email)
+					toast.promise(acceptPromise, {
+						loading: 'Loading...',
+						success: 'Order Accepted',
+						error: 'Order already accepted!',
+					})
+    navigate(`/map1?id=${id}`);
+  };
+
   const openDecline = () => {
     setDecline(true);
     navigate("/myActivity");
@@ -25,6 +38,8 @@ const Accept = () => {
   
 
   return (
+    <>
+    <Toaster />
     <div className="flex justify-center bg-gray-100">
       <div
         className={`flex flex-col w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white`}
@@ -150,6 +165,7 @@ const Accept = () => {
         </div>
       </div>
     </div>
+  </>
   );
 };
 
