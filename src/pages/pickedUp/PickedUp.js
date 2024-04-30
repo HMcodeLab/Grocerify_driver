@@ -1,16 +1,38 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../components/header/Header";
 import MapImg from "../../assests/images/map.png";
 import DeliverImg from "../../assests/images/deliver.png";
-
+import { deliverdeliveryboyorder, getDataFromToken, getDeliveryboy } from "../../helper/helper";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 // delivered - pop up (done) ------- back to orders(my activity)
 
 const PickedUp = () => {
   const navigate = useNavigate();
 
   const [isPickedup, setPickedup] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  let orderid = searchParams.get("id")
+  
+  const [info, setInfo] = useState(null)
+	
+  async function getData() {
+		const {email} = await getDataFromToken()
+		const data = await getDeliveryboy({email})
+		setInfo(data.data.data)
+	}
+  
+  useEffect(() => {
+		getData()
+	}, [searchParams.get("id")])
+
   const openPickedup = () => {
+    let deliverPromise = deliverdeliveryboyorder(orderid)
+					toast.promise(deliverPromise, {
+						loading: 'Loading...',
+						success: 'Order Delivered',
+						error: 'Order already Delivered!',
+					})
     setPickedup(true);
   };
 
@@ -20,6 +42,8 @@ const PickedUp = () => {
   };
 
   return (
+    <>
+    <Toaster />
     <div className="flex justify-center bg-gray-100">
       <div
         className={`flex flex-col w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white ${
@@ -39,10 +63,16 @@ const PickedUp = () => {
           <div className="bg-[#FFFFFF] flex flex-row px-5 py-8">
             <div className="flex flex-col gap-6">
               <p className="text-[#333333] text-[16px] font-Montserrat font-semibold leading-5 w-[70%]">
-                5728+C56 - Al Quoz -Al Quoz 2 - India
-              </p>
-              <p className="text-[#333333] text-[16px] font-Montserrat font-semibold leading-5 w-[70%]">
-                2min
+              {info?.all_orders.map((order, id)=>{
+                  if (order._id==orderid) {
+                    return(
+                      <span key={id}>
+                        {order.shipping_address.address_line_1}, {order.shipping_address.address_line_2},
+                              {order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.zip}
+                      </span>
+                    )
+                  }
+                })}
               </p>
             </div>
             <div className="flex flex-col justify-end gap-6">
@@ -78,6 +108,7 @@ const PickedUp = () => {
         </div>
       )}
     </div>
+    </>
   )
 }
 

@@ -1,29 +1,51 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../components/header/Header";
 import MapImg from "../../assests/images/map.png";
 import { ReactComponent as Loc } from "../../assests/icons/location.svg";
 import { ReactComponent as Burger } from "../../assests/icons/burger.svg";
 import { ReactComponent as Bank } from "../../assests/icons/bank2.svg";
-
+import { getDataFromToken, getDeliveryboy, pickupdeliveryboyorder } from "../../helper/helper";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 // decline - open pop up ------ decline(my activity), continue(close pop up)
 // pickup - open pop up ------ pickup(pickedup)
 
 const Map1 = () => {
   const navigate = useNavigate();
-  
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isPickedup, setPickedup] = useState(false);
+  let orderid = searchParams.get("id")
+  
+  const [info, setInfo] = useState(null)
+	
+  async function getData() {
+		const {email} = await getDataFromToken()
+		const data = await getDeliveryboy({email})
+		setInfo(data.data.data)
+	}
+  
+  useEffect(() => {
+		getData()
+	}, [searchParams.get("id")])
+
   const openPickedup = () => {
     setPickedup(true);
   };
   const closePickedup = () => {
     setPickedup(false);
-    navigate("/pickedUp");
+    let pickupPromise = pickupdeliveryboyorder(orderid)
+					toast.promise(pickupPromise, {
+						loading: 'Loading...',
+						success: 'Order Pickedup',
+						error: 'Order already pickedup!',
+					})
+    navigate(`/pickedUp?id=${orderid}`);
   };
   
   const [isOpen, setOpen] = useState(false);
   const openModel = () => {
-    setOpen(true);
+    // setOpen(true);
+    navigate("/myActivity");
   };
   const closeModel = () => {
     setOpen(false);
@@ -36,6 +58,8 @@ const Map1 = () => {
   };
 
   return (
+    <>
+    <Toaster />
     <div className="flex justify-center bg-gray-100">
       <div
         className={`flex flex-col w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white ${
@@ -54,17 +78,27 @@ const Map1 = () => {
         >
           <div onClick={openModel}>
             <button className="text-[#FFFFFF] text-[16px] font-Inter bg-[#C7C3CA] rounded-lg py-1 px-6 mt-4 ml-6 w-[25%]">
-              Decline
+              Back
             </button>
           </div>
           <div className="bg-[#FFFFFF] flex flex-row px-5 py-8">
             <div className="flex flex-col gap-6">
               <p className="text-[#333333] text-[16px] font-Montserrat font-semibold leading-5 w-[70%]">
-                5728+C56 - Al Quoz -Al Quoz 2 - India
+                {info?.all_orders.map((order, id)=>{
+                  if (order._id==orderid) {
+                    return(
+                      <span key={id}>
+                        {order.shipping_address.address_line_1}, {order.shipping_address.address_line_2},
+                              {order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.zip}
+                      </span>
+                    )
+                  }
+                })}
+
               </p>
-              <p className="text-[#333333] text-[16px] font-Montserrat font-semibold leading-5 w-[70%]">
+              {/* <p className="text-[#333333] text-[16px] font-Montserrat font-semibold leading-5 w-[70%]">
                 10min
-              </p>
+              </p> */}
             </div>
             <div className="flex flex-col justify-end gap-6">
               <button
@@ -102,16 +136,13 @@ const Map1 = () => {
       )}
       {isPickedup && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 ">
-          <div className=" bg-white bg-opacity-90 rounded-3xl flex flex-col w-[352px] h-[514.46px] py-10 px-5 gap-5 ">
+          <div className=" bg-white bg-opacity-90 rounded-3xl flex flex-col w-[352px] h-[170.46px] py-10 px-5 gap-5 ">
             <div className="flex flex-col gap-2">
               <p className="text-[#000000] text-[16.39px] font-Montserrat font-semibold text-center">
-                You arrived to Viplo!
-              </p>
-              <p className="text-[#000000] text-[16.39px] font-Montserrat font-bold text-center">
-                Bashir Siddiqui
+                You arrived to the pickup location!
               </p>
             </div>
-            <div className="flex flex-col gap-2">
+            {/* <div className="flex flex-col gap-2">
               <p className="text-[#303030] text-[16.86px] font-Montserrat font-semibold pl-10">
                 #UP295YH
               </p>
@@ -156,11 +187,11 @@ const Map1 = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> 
             <div className="flex flex-row gap-4">
               <Bank className="w-[30px] h-[30px]" />
               <p className="text-[#000000] text-[18px] font-Montserrta">Debit card - <span className="text-[#06B178]"> paid </span></p>
-            </div>
+            </div>*/}
             <div className="flex flex-row justify-center gap-8">
               <button
                 className="text-[#FFFFFF] text-[16px] font-Montserrat bg-[#57AF11] rounded-lg px-4 h-[40.98px] w-[122.04px]"
@@ -173,6 +204,7 @@ const Map1 = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

@@ -147,6 +147,19 @@ const MyActivity = () => {
 											<p className="text-[#333333] text-[18px] font-Montserrat font-black">
 												#{order.order_id}
 											</p>
+											{order.status == 'processed' ?
+											<Link to={`/map1?id=${order._id}`}>
+												<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
+													Pick Up Order<br />
+												</button>
+											</Link>
+											:
+											<Link to={`/pickedUp?id=${order._id}`}>
+												<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
+													Deliver Order <br />
+												</button>
+											</Link>
+											}	
 										</div>
 										<div className="flex flex-col gap-2">
 											{/* <div className="flex flex-row gap-2 items-center">
@@ -272,7 +285,7 @@ const MyActivity = () => {
 
 	return (
 		<>
-			<Toaster position="top-right" />
+			<Toaster />
 			<div className="flex justify-center bg-gray-100">
 				<div className="flex flex-col gap-8 w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white">
 					<Header />

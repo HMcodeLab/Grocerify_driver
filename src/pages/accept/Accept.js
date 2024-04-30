@@ -28,7 +28,7 @@ const Accept = () => {
 						success: 'Order Accepted',
 						error: 'Order already accepted!',
 					})
-    // navigate("/map1");
+    navigate(`/map1?id=${id}`);
   };
 
   const openDecline = () => {
@@ -39,7 +39,7 @@ const Accept = () => {
 
   return (
     <>
-    <Toaster position="top-right" />
+    <Toaster />
     <div className="flex justify-center bg-gray-100">
       <div
         className={`flex flex-col w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white`}

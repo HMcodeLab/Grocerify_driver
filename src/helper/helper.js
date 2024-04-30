@@ -114,3 +114,13 @@ export const deliverdeliveryboyorder = async (orderID) => {
         return Promise.reject(error)
     }
 }
+
+export const pickupdeliveryboyorder = async (orderID) => {
+    try {
+        if (orderID) {
+            return await axios.post('/api/pickupdeliveryboyorder', {orderID})
+        }
+    } catch (error) {
+        return Promise.reject(error)
+    }
+}
