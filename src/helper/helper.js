@@ -93,3 +93,24 @@ export const registerDeliveryBoy = async (user) => {
         console.log("Error in DeliveryBoy Registration");
     }
 }
+
+
+export const acceptdeliveryboyorder = async (_id, email) => {
+    try {
+        if (email, _id) {
+            return await axios.post('/api/acceptdeliveryboyorder', { email, _id})
+        }
+    } catch (error) {
+        return Promise.reject(error)
+    }
+}
+
+export const deliverdeliveryboyorder = async (orderID) => {
+    try {
+        if (orderID) {
+            return await axios.post('/api/deliverdeliveryboyorder', {orderID})
+        }
+    } catch (error) {
+        return Promise.reject(error)
+    }
+}

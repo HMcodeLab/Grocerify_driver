@@ -6,7 +6,7 @@ import { ReactComponent as Loc } from '../../assests/icons/location.svg'
 import { ReactComponent as Shop } from '../../assests/icons/shop.svg'
 import { ReactComponent as Time } from '../../assests/icons/time.svg'
 import toast, { Toaster } from 'react-hot-toast'
-import { getdeliveryorders } from '../../helper/helper'
+import { getDataFromToken, getDeliveryboy, getdeliveryorders } from '../../helper/helper'
 
 // accept delivery - accept
 
@@ -15,6 +15,16 @@ const MyActivity = () => {
 	const [city, setCity] = useState(null)
 	const [deliveryData, setDeliveryData] = useState(null)
 	const [selectedStatus, setSelectedStatus] = useState('To Deliver')
+	const [info, setInfo] = useState(null)
+	async function getData() {
+		const {email} = await getDataFromToken()
+		const data = await getDeliveryboy({email})
+		setInfo(data.data.data)
+	}
+
+	useEffect(() => {
+		getData()
+	}, [])
 
 	const handleStatusClick = (status) => {
 		setSelectedStatus(status)
@@ -85,14 +95,13 @@ const MyActivity = () => {
 				return (
 					<div className="flex flex-col gap-6">
 						{deliveryData?.map((data, index) => {
-							console.log(data);
 							return (
 								<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2" key={index}>
 									<div className="flex flex-row justify-between items-center">
 										<p className="text-[#333333] text-[18px] font-Montserrat font-black">
-											# {data.order_id}
+											#{data.order_id}
 										</p>
-										<Link to={'/accept'}>
+										<Link to={`/accept?id=${data._id}`}>
 											<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
 												Accept Delivery <br /> ₹{data.shop.deliveryCharges}
 											</button>
@@ -121,26 +130,6 @@ const MyActivity = () => {
 												</p>
 											</div>
 										</div>
-										<div className="flex flex-row gap-10 justify-center mt-4">
-											<div className="flex flex-col items-center">
-												<Time className="w-[25px] h-[25px]" />
-												<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-													Pick up time
-												</p>
-												<p className="text-[#979797] text-[12px] font-Montserrat">
-													10:00 a.m
-												</p>
-											</div>
-											<div className="flex flex-col items-center">
-												<Time className="w-[25px] h-[25px]" />
-												<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-													Delivery time
-												</p>
-												<p className="text-[#979797] text-[12px] font-Montserrat">
-													10:00 a.m
-												</p>
-											</div>
-										</div>
 									</div>
 								</div>
 							)
@@ -150,301 +139,130 @@ const MyActivity = () => {
 			case 'Processing':
 				return (
 					<div className="flex flex-col gap-6">
-						<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2">
-							<div className="flex flex-row justify-between items-center">
-								<p className="text-[#333333] text-[18px] font-Montserrat font-black">
-									# ORDER1002
-								</p>
-								<Link to={'/accept'}>
-									<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
-										Accept Delivery <br /> ₹400
-									</button>
-								</Link>
-							</div>
-							<div className="flex flex-col gap-2">
-								<div className="flex flex-row gap-2 items-center">
-									<Shop className="w-[30px] h-[30px]" />
-									<div className="flex flex-col">
-										<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
-											Shop Address
-										</p>
-										<p className="text-[#333333] text-[10px] font-Montserrat">
-											150th Street, Near Cascade
-											Restaurant
-										</p>
+						{info.all_orders.map((order, id)=>{
+							if (order.status != "delivered") {
+								return(
+									<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2" key={id}>
+										<div className="flex flex-row justify-between items-center">
+											<p className="text-[#333333] text-[18px] font-Montserrat font-black">
+												#{order.order_id}
+											</p>
+										</div>
+										<div className="flex flex-col gap-2">
+											{/* <div className="flex flex-row gap-2 items-center">
+												<Shop className="w-[30px] h-[30px]" />
+												<div className="flex flex-col">
+													<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
+														Shop Address
+													</p>
+													<p className="text-[#333333] text-[10px] font-Montserrat">
+														150th Street, Near Cascade
+														Restaurant
+													</p>
+												</div>
+											</div> */}
+											<div className="flex flex-row gap-2 items-center">
+												<Loc className="w-[30px] h-[30px]" />
+												<div className="flex flex-col">
+													<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
+														Delivery Address
+													</p>
+													<p className="text-[#333333] text-[10px] font-Montserrat">
+														{order.shipping_address.address_line_1}, {order.shipping_address.address_line_2},
+														{order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.zip}
+													</p>
+												</div>
+											</div>
+											{/* <div className="flex flex-row gap-10 justify-center mt-4">
+												<div className="flex flex-col items-center">
+													<Time className="w-[25px] h-[25px]" />
+													<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
+														Pick up time
+													</p>
+													<p className="text-[#979797] text-[12px] font-Montserrat">
+														10:00 a.m
+													</p>
+												</div>
+												<div className="flex flex-col items-center">
+													<Time className="w-[25px] h-[25px]" />
+													<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
+														Delivery time
+													</p>
+													<p className="text-[#979797] text-[12px] font-Montserrat">
+														10:00 a.m
+													</p>
+												</div>
+											</div> */}
+										</div>
 									</div>
-								</div>
-								<div className="flex flex-row gap-2 items-center">
-									<Loc className="w-[30px] h-[30px]" />
-									<div className="flex flex-col">
-										<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
-											Delivery Address
-										</p>
-										<p className="text-[#333333] text-[10px] font-Montserrat">
-											146tyh Street, near cascade
-											Restaurant
-										</p>
-									</div>
-								</div>
-								<div className="flex flex-row gap-10 justify-center mt-4">
-									<div className="flex flex-col items-center">
-										<Time className="w-[25px] h-[25px]" />
-										<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-											Pick up time
-										</p>
-										<p className="text-[#979797] text-[12px] font-Montserrat">
-											10:00 a.m
-										</p>
-									</div>
-									<div className="flex flex-col items-center">
-										<Time className="w-[25px] h-[25px]" />
-										<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-											Delivery time
-										</p>
-										<p className="text-[#979797] text-[12px] font-Montserrat">
-											10:00 a.m
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2">
-							<div className="flex flex-row justify-between items-center">
-								<p className="text-[#333333] text-[18px] font-Montserrat font-black">
-									# ORDER1002
-								</p>
-								<Link to={'/accept'}>
-									<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
-										Accept Delivery <br /> ₹400
-									</button>
-								</Link>
-							</div>
-							<div className="flex flex-col gap-2">
-								<div className="flex flex-row gap-2 items-center">
-									<Shop className="w-[30px] h-[30px]" />
-									<div className="flex flex-col">
-										<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
-											Shop Address
-										</p>
-										<p className="text-[#333333] text-[10px] font-Montserrat">
-											150th Street, Near Cascade
-											Restaurant
-										</p>
-									</div>
-								</div>
-								<div className="flex flex-row gap-2 items-center">
-									<Loc className="w-[30px] h-[30px]" />
-									<div className="flex flex-col">
-										<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
-											Delivery Address
-										</p>
-										<p className="text-[#333333] text-[10px] font-Montserrat">
-											146tyh Street, near cascade
-											Restaurant
-										</p>
-									</div>
-								</div>
-								<div className="flex flex-row gap-10 justify-center mt-4">
-									<div className="flex flex-col items-center">
-										<Time className="w-[25px] h-[25px]" />
-										<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-											Pick up time
-										</p>
-										<p className="text-[#979797] text-[12px] font-Montserrat">
-											10:00 a.m
-										</p>
-									</div>
-									<div className="flex flex-col items-center">
-										<Time className="w-[25px] h-[25px]" />
-										<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-											Delivery time
-										</p>
-										<p className="text-[#979797] text-[12px] font-Montserrat">
-											10:00 a.m
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2">
-							<div className="flex flex-row justify-between items-center">
-								<p className="text-[#333333] text-[18px] font-Montserrat font-black">
-									# ORDER1002
-								</p>
-								<Link to={'/accept'}>
-									<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
-										Accept Delivery <br /> ₹400
-									</button>
-								</Link>
-							</div>
-							<div className="flex flex-col gap-2">
-								<div className="flex flex-row gap-2 items-center">
-									<Shop className="w-[30px] h-[30px]" />
-									<div className="flex flex-col">
-										<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
-											Shop Address
-										</p>
-										<p className="text-[#333333] text-[10px] font-Montserrat">
-											150th Street, Near Cascade
-											Restaurant
-										</p>
-									</div>
-								</div>
-								<div className="flex flex-row gap-2 items-center">
-									<Loc className="w-[30px] h-[30px]" />
-									<div className="flex flex-col">
-										<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
-											Delivery Address
-										</p>
-										<p className="text-[#333333] text-[10px] font-Montserrat">
-											146tyh Street, near cascade
-											Restaurant
-										</p>
-									</div>
-								</div>
-								<div className="flex flex-row gap-10 justify-center mt-4">
-									<div className="flex flex-col items-center">
-										<Time className="w-[25px] h-[25px]" />
-										<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-											Pick up time
-										</p>
-										<p className="text-[#979797] text-[12px] font-Montserrat">
-											10:00 a.m
-										</p>
-									</div>
-									<div className="flex flex-col items-center">
-										<Time className="w-[25px] h-[25px]" />
-										<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-											Delivery time
-										</p>
-										<p className="text-[#979797] text-[12px] font-Montserrat">
-											10:00 a.m
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
+								)
+							}
+						})}
 					</div>
 				)
 			case 'Delivered':
 				return (
 					<div className="flex flex-col gap-6">
-						<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2">
-							<div className="flex flex-row justify-between items-center">
-								<p className="text-[#333333] text-[18px] font-Montserrat font-black">
-									# ORDER8002
-								</p>
-								<Link to={'/accept'}>
-									<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
-										Accept Delivery <br /> ₹400
-									</button>
-								</Link>
-							</div>
-							<div className="flex flex-col gap-2">
-								<div className="flex flex-row gap-2 items-center">
-									<Shop className="w-[30px] h-[30px]" />
-									<div className="flex flex-col">
-										<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
-											Shop Address
-										</p>
-										<p className="text-[#333333] text-[10px] font-Montserrat">
-											150th Street, Near Cascade
-											Restaurant
-										</p>
+						{info.all_orders.map((order, id)=>{
+							console.log(order);
+							if (order.status === "delivered") {
+								return(
+									<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2" key={id}>
+										<div className="flex flex-row justify-between items-center">
+											<p className="text-[#333333] text-[18px] font-Montserrat font-black">
+												#{order.order_id}
+											</p>
+										</div>
+										<div className="flex flex-col gap-2">
+											{/* <div className="flex flex-row gap-2 items-center">
+												<Shop className="w-[30px] h-[30px]" />
+												<div className="flex flex-col">
+													<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
+														Shop Address
+													</p>
+													<p className="text-[#333333] text-[10px] font-Montserrat">
+														150th Street, Near Cascade
+														Restaurant
+													</p>
+												</div>
+											</div> */}
+											<div className="flex flex-row gap-2 items-center">
+												<Loc className="w-[30px] h-[30px]" />
+												<div className="flex flex-col">
+													<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
+														Delivery Address
+													</p>
+													<p className="text-[#333333] text-[10px] font-Montserrat">
+														{order.shipping_address.address_line_1}, {order.shipping_address.address_line_2},
+														{order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.zip}
+													</p>
+												</div>
+											</div>
+											{/* <div className="flex flex-row gap-10 justify-center mt-4">
+												<div className="flex flex-col items-center">
+													<Time className="w-[25px] h-[25px]" />
+													<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
+														Pick up time
+													</p>
+													<p className="text-[#979797] text-[12px] font-Montserrat">
+														10:00 a.m
+													</p>
+												</div>
+												<div className="flex flex-col items-center">
+													<Time className="w-[25px] h-[25px]" />
+													<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
+														Delivery time
+													</p>
+													<p className="text-[#979797] text-[12px] font-Montserrat">
+														10:00 a.m
+													</p>
+												</div>
+											</div> */}
+										</div>
 									</div>
-								</div>
-								<div className="flex flex-row gap-2 items-center">
-									<Loc className="w-[30px] h-[30px]" />
-									<div className="flex flex-col">
-										<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
-											Delivery Address
-										</p>
-										<p className="text-[#333333] text-[10px] font-Montserrat">
-											146tyh Street, near cascade
-											Restaurant
-										</p>
-									</div>
-								</div>
-								<div className="flex flex-row gap-10 justify-center mt-4">
-									<div className="flex flex-col items-center">
-										<Time className="w-[25px] h-[25px]" />
-										<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-											Pick up time
-										</p>
-										<p className="text-[#979797] text-[12px] font-Montserrat">
-											10:00 a.m
-										</p>
-									</div>
-									<div className="flex flex-col items-center">
-										<Time className="w-[25px] h-[25px]" />
-										<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-											Delivery time
-										</p>
-										<p className="text-[#979797] text-[12px] font-Montserrat">
-											10:00 a.m
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2">
-							<div className="flex flex-row justify-between items-center">
-								<p className="text-[#333333] text-[18px] font-Montserrat font-black">
-									# ORDER8002
-								</p>
-								<Link to={'/accept'}>
-									<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] text-end px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
-										Accept Delivery <br /> ₹400
-									</button>
-								</Link>
-							</div>
-							<div className="flex flex-col gap-2">
-								<div className="flex flex-row gap-2 items-center">
-									<Shop className="w-[30px] h-[30px]" />
-									<div className="flex flex-col">
-										<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
-											Shop Address
-										</p>
-										<p className="text-[#333333] text-[10px] font-Montserrat">
-											150th Street, Near Cascade
-											Restaurant
-										</p>
-									</div>
-								</div>
-								<div className="flex flex-row gap-2 items-center">
-									<Loc className="w-[30px] h-[30px]" />
-									<div className="flex flex-col">
-										<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
-											Delivery Address
-										</p>
-										<p className="text-[#333333] text-[10px] font-Montserrat">
-											146tyh Street, near cascade
-											Restaurant
-										</p>
-									</div>
-								</div>
-								<div className="flex flex-row gap-10 justify-center mt-4">
-									<div className="flex flex-col items-center">
-										<Time className="w-[25px] h-[25px]" />
-										<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-											Pick up time
-										</p>
-										<p className="text-[#979797] text-[12px] font-Montserrat">
-											10:00 a.m
-										</p>
-									</div>
-									<div className="flex flex-col items-center">
-										<Time className="w-[25px] h-[25px]" />
-										<p className="text-[#333333] text-[12px] font-Montserrat font-bold mt-2">
-											Delivery time
-										</p>
-										<p className="text-[#979797] text-[12px] font-Montserrat">
-											10:00 a.m
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
+								)
+							}
+						})}
 					</div>
 				)
 			default:
