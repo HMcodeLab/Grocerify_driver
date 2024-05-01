@@ -25,18 +25,7 @@ export default function DeliveryboyNav({info}) {
 					Total Rides
 				</p>
 				<p className="text-[#777777] text-[14px] font-Montserrat">
-					121
-				</p>
-			</div>
-			<div className="flex flex-col items-center">
-				<p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
-					Rating
-				</p>
-				<p className="text-[#777777] text-[14px] font-Montserrat flex flex-row gap-1 items-center">
-					4.5
-					<span>
-						<FaStar color="#FFC300" />
-					</span>
+					{info?.all_orders.length}
 				</p>
 			</div>
 			<div className="flex flex-col items-center">
