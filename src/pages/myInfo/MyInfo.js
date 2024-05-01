@@ -7,6 +7,7 @@ import { ReactComponent as User3 } from "../../assests/icons/user3.svg";
 import { ReactComponent as Mail } from "../../assests/icons/mail.svg";
 import { getDataFromToken, getDeliveryboy } from "../../helper/helper";
 import Deliveryboyheader from "../../components/Deliveryboyheader/Deliveryboyheader";
+import DeliveryboyNav from "../../components/DeliveryboyNav/DeliveryboyNav";
 
 const MyInfo = () => {
   const [info, setInfo] = useState(null)
@@ -33,28 +34,7 @@ const MyInfo = () => {
         </div>
 
         {/* nav */}
-        <div className="flex flex-row justify-between px-[2%]">
-          <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
-              Total Rides
-            </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat">121</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
-              Rating 
-            </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat flex flex-row gap-1 items-center">4.5<span><FaStar color="#FFC300" /></span></p>
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-[#333333] text-[16px] font-Montserrat font-semibold">
-              Experience
-            </p>
-            <p className="text-[#777777] text-[14px] font-Montserrat">
-              6 Years
-            </p>
-          </div>
-        </div>
+        <DeliveryboyNav info={info}/>
 
         {/* info */}
         <div className="flex flex-col gap-6 mx-2 px-[3%] py-[4%] mt-4  rounded-md shadow-md">
@@ -67,7 +47,7 @@ const MyInfo = () => {
                 </div>
             </div>
             <div>
-                <Pencil className="w-[25px] h-[25px]" />
+                
             </div>
           </div>
           <div className="flex flex-row justify-between items-center">
@@ -79,7 +59,7 @@ const MyInfo = () => {
                 </div>
             </div>
             <div>
-                <Pencil className="w-[25px] h-[25px]" />
+                
             </div>
           </div>
         </div>

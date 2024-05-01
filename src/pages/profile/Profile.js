@@ -84,7 +84,7 @@ const Profile = () => {
               <p className="text-2xl font-bold"> {" > "} </p>
             </div>
           </div> */}
-          <div className="flex flex-col gap-2">
+          {/* <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-3 justify-between shadow-md py-3 px-4 items-center">
               <div className="flex flex-col">
                 <p className="text-[#000000] text-[18px] font-Montserrat font-bold">
@@ -94,7 +94,7 @@ const Profile = () => {
               </div>
               <Link to={"/earnings"} className="text-2xl font-bold"> {" > "} </Link>
             </div>
-          </div>
+          </div> */}
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-3 justify-between shadow-md py-3 px-4 items-center">
               <div className="flex flex-col">
