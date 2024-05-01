@@ -13,11 +13,11 @@ export default function Deliveryboyheader({ info }) {
 				</p>
 				<p className="text-[#303030] text-[16px] font-Montserrat">
 					Shift status:{' '}
-					{info?.shift_status ? (
-						<span className="text-[#06B178]">Active</span>
+					<span className="text-[#06B178]">Active</span>
+					{/* {info?.shift_status ? (
 					) : (
 						<span className="text-[#ff5858]">Inactive</span>
-					)}
+					)} */}
 				</p>
 			</div>
 		</div>
