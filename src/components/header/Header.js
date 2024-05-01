@@ -9,7 +9,7 @@ const Header = () => {
     <div className="flex flex-row justify-between items-center bg-[#333333] py-3 px-5">
       <Grocerify className="w-[102px] h-[23.91px]" />
       <div className="flex flex-row gap-2 items-start">
-        <Notify className="w-[25px] h-[25px]" />
+        {/* <Notify className="w-[25px] h-[25px]" /> */}
         <Link to={"/profile"}>
           <User className="w-[30px] h-[30px]" />
         </Link>
