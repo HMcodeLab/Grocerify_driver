@@ -133,14 +133,14 @@ const Login = () => {
                   />
                 </div>
                 {/* Forgot password link */}
-                <div className="flex flex-row justify-end">
+                {/* <div className="flex flex-row justify-end">
                   <Link
                     to={"/forgotpassword"}
                     className="text-[12px] text-[#333333] font-Montserrat cursor-pointer"
                   >
                     Forgot password?
                   </Link>
-                </div>
+                </div> */}
               </div>
             ) : (
               <div className="flex flex-col gap-6">
