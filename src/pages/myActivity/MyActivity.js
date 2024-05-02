@@ -17,8 +17,8 @@ const MyActivity = () => {
 	const [selectedStatus, setSelectedStatus] = useState('To Deliver')
 	const [info, setInfo] = useState(null)
 	async function getData() {
-		const {email} = await getDataFromToken()
-		const data = await getDeliveryboy({email})
+		const { email } = await getDataFromToken()
+		const data = await getDeliveryboy({ email })
 		setInfo(data.data.data)
 	}
 
@@ -103,7 +103,7 @@ const MyActivity = () => {
 										</p>
 										<Link to={`/accept?id=${data._id}`}>
 											<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
-												Accept Delivery <br /> ₹{data.shop.deliveryCharges}
+												Accept Delivery <br /> ₹{data?.shop?.deliveryCharges}
 											</button>
 										</Link>
 									</div>
@@ -115,7 +115,7 @@ const MyActivity = () => {
 													Shop Address
 												</p>
 												<p className="text-[#333333] text-[10px] font-Montserrat">
-													{data.shop.ShopAddress}
+													{data?.shop?.ShopAddress}
 												</p>
 											</div>
 										</div>
@@ -126,7 +126,7 @@ const MyActivity = () => {
 													Delivery Address
 												</p>
 												<p className="text-[#333333] text-[10px] font-Montserrat">
-													{data.shipping_address.address_line_1}, {data.shipping_address.address_line_2}, {data.shipping_address.landmark}, {data.shipping_address.city}, {data.shipping_address.state}, {data.shipping_address.country} - {data.shipping_address.zip}
+													{data.shipping_address?.address_line_1}, {data?.shipping_address?.address_line_2}, {data?.shipping_address?.landmark}, {data.shipping_address?.city}, {data?.shipping_address?.state}, {data?.shipping_address?.country} - {data?.shipping_address?.zip}
 												</p>
 											</div>
 										</div>
@@ -139,27 +139,27 @@ const MyActivity = () => {
 			case 'Processing':
 				return (
 					<div className="flex flex-col gap-6">
-						{info.all_orders.map((order, id)=>{
+						{info.all_orders.map((order, id) => {
 							if (order.status != "delivered") {
-								return(
+								return (
 									<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2" key={id}>
 										<div className="flex flex-row justify-between items-center">
 											<p className="text-[#333333] text-[18px] font-Montserrat font-black">
-												#{order.order_id}
+												#{order?.order_id}
 											</p>
 											{order.status == 'processed' ?
-											<Link to={`/map1?id=${order._id}`}>
-												<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
-													Pick Up Order<br />
-												</button>
-											</Link>
-											:
-											<Link to={`/pickedUp?id=${order._id}`}>
-												<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
-													Deliver Order <br />
-												</button>
-											</Link>
-											}	
+												<Link to={`/map1?id=${order._id}`}>
+													<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
+														Pick Up Order<br />
+													</button>
+												</Link>
+												:
+												<Link to={`/pickedUp?id=${order?._id}`}>
+													<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
+														Deliver Order <br />
+													</button>
+												</Link>
+											}
 										</div>
 										<div className="flex flex-col gap-2">
 											{/* <div className="flex flex-row gap-2 items-center">
@@ -181,8 +181,8 @@ const MyActivity = () => {
 														Delivery Address
 													</p>
 													<p className="text-[#333333] text-[10px] font-Montserrat">
-														{order.shipping_address.address_line_1}, {order.shipping_address.address_line_2},
-														{order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.zip}
+														{order.shipping_address?.address_line_1}, {order.shipping_address?.address_line_2},
+														{order.shipping_address?.city}, {order.shipping_address?.state} - {order.shipping_address?.zip}
 													</p>
 												</div>
 											</div>
@@ -216,10 +216,10 @@ const MyActivity = () => {
 			case 'Delivered':
 				return (
 					<div className="flex flex-col gap-6">
-						{info.all_orders.map((order, id)=>{
+						{info.all_orders.map((order, id) => {
 							console.log(order);
 							if (order.status === "delivered") {
-								return(
+								return (
 									<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2" key={id}>
 										<div className="flex flex-row justify-between items-center">
 											<p className="text-[#333333] text-[18px] font-Montserrat font-black">
@@ -246,8 +246,8 @@ const MyActivity = () => {
 														Delivery Address
 													</p>
 													<p className="text-[#333333] text-[10px] font-Montserrat">
-														{order.shipping_address.address_line_1}, {order.shipping_address.address_line_2},
-														{order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.zip}
+														{order.shipping_address?.address_line_1}, {order.shipping_address?.address_line_2},
+														{order.shipping_address?.city}, {order.shipping_address?.state} - {order.shipping_address?.zip}
 													</p>
 												</div>
 											</div>
@@ -312,31 +312,28 @@ const MyActivity = () => {
 					{/* nav */}
 					<div className="flex flex-row justify-between px-5">
 						<p
-							className={`cursor-pointer ${
-								selectedStatus === 'To Deliver'
+							className={`cursor-pointer ${selectedStatus === 'To Deliver'
 									? 'text-[#58B310] underline'
 									: 'text-[#909090]'
-							} text-[16px] font-Montserrat`}
+								} text-[16px] font-Montserrat`}
 							onClick={() => handleStatusClick('To Deliver')}
 						>
 							To Deliver
 						</p>
 						<p
-							className={`cursor-pointer ${
-								selectedStatus === 'Processing'
+							className={`cursor-pointer ${selectedStatus === 'Processing'
 									? 'text-[#58B310] underline'
 									: 'text-[#909090]'
-							} text-[16px] font-Montserrat`}
+								} text-[16px] font-Montserrat`}
 							onClick={() => handleStatusClick('Processing')}
 						>
 							Processing
 						</p>
 						<p
-							className={`cursor-pointer ${
-								selectedStatus === 'Delivered'
+							className={`cursor-pointer ${selectedStatus === 'Delivered'
 									? 'text-[#58B310] underline'
 									: 'text-[#909090]'
-							} text-[16px] font-Montserrat`}
+								} text-[16px] font-Montserrat`}
 							onClick={() => handleStatusClick('Delivered')}
 						>
 							Delivered
