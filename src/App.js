@@ -22,7 +22,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path={"/"} element={<Login />}></Route>
+        <Route exact path={"/"} element={<MyActivity />}></Route>
         <Route exact path={"/sendOtp"} element={<SendOtp />}></Route>
         <Route exact path={"/forgotPassword"} element={<ForgotPassword />}></Route>
         <Route exact path={"/newPassword"} element={<NewPassword />}></Route>

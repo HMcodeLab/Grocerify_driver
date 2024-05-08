@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Header from '../../components/header/Header'
 import '../myActivity/myActivity.css'
 import { ReactComponent as Loc } from '../../assests/icons/location.svg'
@@ -7,6 +7,7 @@ import { ReactComponent as Shop } from '../../assests/icons/shop.svg'
 import { ReactComponent as Time } from '../../assests/icons/time.svg'
 import toast, { Toaster } from 'react-hot-toast'
 import { getDataFromToken, getDeliveryboy, getdeliveryorders } from '../../helper/helper'
+import Login from '../login/Login'
 
 // accept delivery - accept
 
@@ -16,10 +17,11 @@ const MyActivity = () => {
 	const [deliveryData, setDeliveryData] = useState(null)
 	const [selectedStatus, setSelectedStatus] = useState('To Deliver')
 	const [info, setInfo] = useState(null)
+	let navigate=useNavigate()
 	async function getData() {
 		const { email } = await getDataFromToken()
 		const data = await getDeliveryboy({ email })
-		setInfo(data.data.data)
+		setInfo(data?.data?.data)
 	}
 
 	useEffect(() => {
@@ -32,7 +34,17 @@ const MyActivity = () => {
 
 	async function fetchdeliveryorders() {
 		const data = await getdeliveryorders()
-		setDeliveryData(data?.data.orders)
+		setDeliveryData(data?.data?.orders)
+	}
+	function handleAccept(path) {
+		// console.log(path);
+		const toggleValue = localStorage.getItem('toggle');
+		console.log("Toggle Value:", toggleValue);
+		if (toggleValue !== 'true') {
+			toast.error('Your shift is not active');
+		} else {
+			navigate(path);
+		}
 	}
 
 	useEffect(() => {
@@ -40,8 +52,8 @@ const MyActivity = () => {
 	}, [])
 
 	const handleLocClick = () => {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
+		if (navigator?.geolocation) {
+			navigator?.geolocation.getCurrentPosition(
 				async (position) => {
 					const { latitude, longitude } = position.coords
 					setLocation({ latitude, longitude })
@@ -54,9 +66,9 @@ const MyActivity = () => {
 						const response = await fetch(apiUrl)
 						const data = await response.json()
 
-						if (data.results && data.results.length > 0) {
+						if (data?.results && data?.results.length > 0) {
 							const addressComponents =
-								data.results[0].address_components
+								data?.results[0].address_components
 							const cityComponent = addressComponents.find(
 								(component) =>
 									component.types.includes('locality')
@@ -99,15 +111,17 @@ const MyActivity = () => {
 								<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2" key={index}>
 									<div className="flex flex-row justify-between items-center">
 										<p className="text-[#333333] text-[18px] font-Montserrat font-black">
-											#{data.order_id}
+											#{data?.order_id}
 										</p>
-										<Link to={`/accept?id=${data._id}`}>
-											<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
+											<button onClick={()=>handleAccept('/accept?id='+data?._id)} className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
 												Accept Delivery <br /> ₹{data?.shop?.deliveryCharges}
 											</button>
-										</Link>
 									</div>
 									<div className="flex flex-col gap-2">
+										<div className='text-[#333333] text-[14px] font-Montserrat	font-semibold'>
+											<p>Ordered by : {data?.ordered_by?.firstName} {data?.ordered_by?.lastName}</p>
+											<p>Shop : {data?.shop?.shopName}</p>
+										</div>
 										<div className="flex flex-row gap-2 items-center">
 											<Shop className="w-[30px] h-[30px]" />
 											<div className="flex flex-col">
@@ -126,7 +140,7 @@ const MyActivity = () => {
 													Delivery Address
 												</p>
 												<p className="text-[#333333] text-[10px] font-Montserrat">
-													{data.shipping_address?.address_line_1}, {data?.shipping_address?.address_line_2}, {data?.shipping_address?.landmark}, {data.shipping_address?.city}, {data?.shipping_address?.state}, {data?.shipping_address?.country} - {data?.shipping_address?.zip}
+													{data?.shipping_address?.address_line_1}, {data?.shipping_address?.address_line_2}, {data?.shipping_address?.landmark}, {data?.shipping_address?.city}, {data?.shipping_address?.state}, {data?.shipping_address?.country} - {data?.shipping_address?.zip}
 												</p>
 											</div>
 										</div>
@@ -139,26 +153,22 @@ const MyActivity = () => {
 			case 'Processing':
 				return (
 					<div className="flex flex-col gap-6">
-						{info.all_orders.map((order, id) => {
-							if (order.status != "delivered") {
+						{info?.all_orders?.map((order, id) => {
+							if (order?.status != "delivered") {
 								return (
 									<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2" key={id}>
 										<div className="flex flex-row justify-between items-center">
 											<p className="text-[#333333] text-[18px] font-Montserrat font-black">
 												#{order?.order_id}
 											</p>
-											{order.status == 'processed' ?
-												<Link to={`/map1?id=${order._id}`}>
-													<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
+											{order?.status == 'processed' ?
+													<button  onClick={()=>handleAccept(`/map1?id=${order?._id}`)} className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
 														Pick Up Order<br />
 													</button>
-												</Link>
 												:
-												<Link to={`/pickedUp?id=${order?._id}`}>
-													<button className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
+													<button onClick={()=>handleAccept(`/pickedUp?id=${order?._id}`)} className="text-[#FFFFFF] text-[14px] font-Montserrat font-semibold w-[141px] px-3 py-1 leading-5 rounded-lg h-[48px] bg-[#58B310]">
 														Deliver Order <br />
 													</button>
-												</Link>
 											}
 										</div>
 										<div className="flex flex-col gap-2">
@@ -174,6 +184,14 @@ const MyActivity = () => {
 													</p>
 												</div>
 											</div> */}
+											<div className="flex flex-col">
+												<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
+													Customer name
+												</p>
+												<p className="text-[#333333] text-[14px] font-Montserrat">
+													{order?.shipping_address?.full_name	}
+												</p>
+											</div>
 											<div className="flex flex-row gap-2 items-center">
 												<Loc className="w-[30px] h-[30px]" />
 												<div className="flex flex-col">
@@ -181,8 +199,8 @@ const MyActivity = () => {
 														Delivery Address
 													</p>
 													<p className="text-[#333333] text-[10px] font-Montserrat">
-														{order.shipping_address?.address_line_1}, {order.shipping_address?.address_line_2},
-														{order.shipping_address?.city}, {order.shipping_address?.state} - {order.shipping_address?.zip}
+														{order?.shipping_address?.address_line_1}, {order?.shipping_address?.address_line_2},
+														{order?.shipping_address?.city}, {order?.shipping_address?.state} - {order?.shipping_address?.zip}
 													</p>
 												</div>
 											</div>
@@ -216,15 +234,19 @@ const MyActivity = () => {
 			case 'Delivered':
 				return (
 					<div className="flex flex-col gap-6">
-						{info.all_orders.map((order, id) => {
+						{info?.all_orders?.map((order, id) => {
 							console.log(order);
-							if (order.status === "delivered") {
+							if (order?.status === "delivered") {
 								return (
 									<div className="flex flex-col rounded-xl shadow-md px-6 py-4 gap-2" key={id}>
 										<div className="flex flex-row justify-between items-center">
 											<p className="text-[#333333] text-[18px] font-Montserrat font-black">
-												#{order.order_id}
+												#{order?.order_id}
 											</p>
+											<p className="text-[#333333] text-[18px] font-Montserrat font-black">
+											₹{order?.order_price}
+											</p>
+
 										</div>
 										<div className="flex flex-col gap-2">
 											{/* <div className="flex flex-row gap-2 items-center">
@@ -240,14 +262,24 @@ const MyActivity = () => {
 												</div>
 											</div> */}
 											<div className="flex flex-row gap-2 items-center">
+											<div className="flex flex-col">
+												<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
+													Customer name
+												</p>
+												<p className="text-[#333333] text-[14px] font-Montserrat">
+													{order?.shipping_address?.full_name	}
+												</p>
+											</div>
+										</div>
+											<div className="flex flex-row gap-2 items-center">
 												<Loc className="w-[30px] h-[30px]" />
 												<div className="flex flex-col">
 													<p className="text-[#333333] text-[14px] font-Montserrat font-bold">
 														Delivery Address
 													</p>
 													<p className="text-[#333333] text-[10px] font-Montserrat">
-														{order.shipping_address?.address_line_1}, {order.shipping_address?.address_line_2},
-														{order.shipping_address?.city}, {order.shipping_address?.state} - {order.shipping_address?.zip}
+														{order?.shipping_address?.address_line_1}, {order?.shipping_address?.address_line_2},
+														{order?.shipping_address?.city}, {order?.shipping_address?.state} - {order?.shipping_address?.zip}
 													</p>
 												</div>
 											</div>
@@ -286,6 +318,7 @@ const MyActivity = () => {
 	return (
 		<>
 			<Toaster />
+			{localStorage.getItem('token') ?
 			<div className="flex justify-center bg-gray-100">
 				<div className="flex flex-col gap-8 w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white">
 					<Header />
@@ -345,7 +378,7 @@ const MyActivity = () => {
 						{renderCards()}
 					</div>
 				</div>
-			</div>
+			</div> : <Login/>}
 		</>
 	)
 }

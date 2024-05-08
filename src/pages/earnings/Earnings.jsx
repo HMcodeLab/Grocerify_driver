@@ -1,22 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DeliveryboyNav from "../../components/DeliveryboyNav/DeliveryboyNav";
-import { getDataFromToken, getDeliveryboy } from "../../helper/helper";
-
+import { getDataFromToken, getDeliveryboy, getdeliveryorders } from "../../helper/helper";
+import { FaLocationDot } from "react-icons/fa6";
 // last 3 data
 // cash out
 
 const Earnings = () => {
   const [info, setInfo] = useState(null)
+  const [currentDate, setcurrentDate] = useState()
+  const [earning, setearning] = useState()
   async function getData() {
     const {email} = await getDataFromToken()
     const data = await getDeliveryboy({email})
-    setInfo(data.data.data)
+    setInfo(data?.data?.data)
   }
+async function Fetchdata(){
+  const data = await getdeliveryorders();
+  let total=0;
+  data?.data?.orders?.map((item)=>{
+total+=item?.shop?.deliveryCharges
+
+  })
+  
+  setearning(total)
+
+}
 
   useEffect(() => {
     getData()
+    Fetchdata()
   }, [])
+
+  useEffect(() => {
+    const today = new Date();
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    setcurrentDate(today.toLocaleDateString(undefined, options));
+  }, []);
 
   return (
     <div className="flex justify-center bg-gray-100">
@@ -37,16 +62,16 @@ const Earnings = () => {
         <DeliveryboyNav info={info}/>
 
         {/* cash */}
-        <div className="flex flex-row justify-between items-center px-4">
-          <div className="flex flex-col items-center rounded-3xl shadow-xl px-4 py-6">
-            <p className="text-[#848484] text-[27.22px] font-Montserrat font-bold">₹43,300</p>
+        <div className="flex flex-row justify-between items-center  w-full ">
+          <div className="flex flex-col items-center rounded-3xl shadow-xl px-4 py-6 w-full   mx-auto">
+            <p className="text-[#848484] text-[27.22px] font-Montserrat font-bold">₹{earning}</p>
             <p className="text-[#333333] text-[25.22px] font-Montserrat font-bold">Total Earning</p>
           </div>
-          <button className="text-[#FFFFFF] text-[21.3px] font-Montserrat font-semibold bg-[#58B310] h-[34px] px-4 rounded-xl">Cash Out</button>
+          {/* <button className="text-[#FFFFFF] text-[21.3px] font-Montserrat font-semibold bg-[#58B310] h-[34px] px-4 rounded-xl">Cash Out</button> */}
         </div>
 
         {/*  */}
-        <div className="flex flex-col rounded-3xl shadow-lg px-8 py-8 mx-4 my-4 gap-8">
+        {/* <div className="flex flex-col rounded-3xl shadow-lg px-8 py-8 mx-4 my-4 gap-8">
           <div className="flex flex-col">
             <p className="text-[#333333] text-[20px] font-Montserrat font-semibold">Today’s Earnings</p>
             <p className="text-[#333333A3] text-[14px] font-Montserrat font-semibold">Mon, 11 March</p>
@@ -65,14 +90,26 @@ const Earnings = () => {
               <p className="text-[#333333A3] text-[14px] font-Montserrat font-semibold">Online HRS</p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/*  */}
-        <div className="flex flex-col gap-2 px-4">
-          <div className="text-[#333333] text-[16px] font-Montserrat font-semibold px-5 py-4 justify-center rounded-xl shadow-lg">See Daily details</div>
-          <div className="text-[#333333] text-[16px] font-Montserrat font-semibold px-5 py-4 justify-center rounded-xl shadow-lg">See weekly details</div>
-          <div className="text-[#333333] text-[16px] font-Montserrat font-semibold px-5 py-4 justify-center rounded-xl shadow-lg">See Driver Payment Dashboard</div>
-        </div>
+       {/* <div className="flex flex-col gap-3 w-full">
+          <div className="w-full">
+              <div className="flex justify-between">
+                  <p>Davinder</p>
+                  <p>₹400</p>
+              </div>
+              <div className="flex ">
+                  <p>{currentDate}</p>
+                  <p>7.35 AM</p>
+              </div>
+              <div className="flex items-center">
+                  <FaLocationDot/>
+                  <p>E-299, Industrial Area, Sector 75, Sahibzada Ajit Singh Nagar, Punjab 160055</p>
+              </div>
+              <p className="px-2 py-1 bg-green-50 border border-green-500 text-green-500 rounded w-[25%] text-center">Delivered</p>
+          </div>
+       </div> */}
       </div>
     </div>
   );
