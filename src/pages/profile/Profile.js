@@ -5,15 +5,19 @@ import { ReactComponent as Pic } from "../../assests/icons/pic.svg";
 import Deliveryboyheader from "../../components/Deliveryboyheader/Deliveryboyheader";
 import { getDataFromToken, getDeliveryboy } from "../../helper/helper";
 import DeliveryboyNav from "../../components/DeliveryboyNav/DeliveryboyNav";
+import Spinner from "../../components/Spinner";
 
 // my stats left
 
 const Profile = () => {
   const [info, setInfo] = useState(null)
+  const [show, setshow] = useState(false)
   async function getData() {
+    setshow(true)
     const {email} = await getDataFromToken()
     const data = await getDeliveryboy({email})
-    setInfo(data.data.data)
+    setInfo(data?.data?.data)
+    setshow(false)
   }
 
   const navigate = useNavigate();
@@ -23,7 +27,7 @@ const Profile = () => {
   }, [])
 
   function handlelogout() {
-    localStorage.removeItem('token')
+    localStorage.removeItem('deliverytoken')
   }
 
   return (
@@ -118,6 +122,13 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      {show ? (
+        <div className="w-full h-screen fixed top-0 left-0 bg-[#b4cca1] opacity-80">
+          <Spinner className="" />
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

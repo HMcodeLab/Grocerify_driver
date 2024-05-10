@@ -5,10 +5,12 @@ import MapImg from "../../assests/images/map.png";
 import DeliverImg from "../../assests/images/deliver.png";
 import { deliverdeliveryboyorder, getDataFromToken, getDeliveryboy } from "../../helper/helper";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
+import Spinner from "../../components/Spinner";
 // delivered - pop up (done) ------- back to orders(my activity)
 
 const PickedUp = () => {
   const navigate = useNavigate();
+  const [show, setshow] = useState(false)
 
   const [isPickedup, setPickedup] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,9 +19,11 @@ const PickedUp = () => {
   const [info, setInfo] = useState(null)
 	
   async function getData() {
+    setshow(true)
 		const {email} = await getDataFromToken()
 		const data = await getDeliveryboy({email})
-		setInfo(data.data.data)
+		setInfo(data?.data?.data)
+    setshow(false)
 	}
   
   useEffect(() => {
@@ -41,6 +45,7 @@ const PickedUp = () => {
     navigate("/myActivity");
   };
 
+
   return (
     <>
     <Toaster />
@@ -57,18 +62,18 @@ const PickedUp = () => {
             backgroundImage: `url(${MapImg})`,
             backgroundPosition: "center",
             width: "430px",
-            height: "932px",
+            height: "832px",
           }}
         >
           <div className="bg-[#FFFFFF] flex flex-row px-5 py-8">
             <div className="flex flex-col gap-6">
               <p className="text-[#333333] text-[16px] font-Montserrat font-semibold leading-5 w-[70%]">
               {info?.all_orders.map((order, id)=>{
-                  if (order._id==orderid) {
+                  if (order?._id==orderid) {
                     return(
                       <span key={id}>
-                        {order.shipping_address.address_line_1}, {order.shipping_address.address_line_2},
-                              {order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.zip}
+                        {order?.shipping_address?.address_line_1}, {order?.shipping_address?.address_line_2},
+                              {order?.shipping_address?.city}, {order?.shipping_address?.state} - {order?.shipping_address?.zip}
                       </span>
                     )
                   }
@@ -95,8 +100,8 @@ const PickedUp = () => {
           }}>
             
             <div className="flex flex-col gap-2 justify-center items-center bg-[#FFFFFF] rounded-3xl w-full h-[200.28px]">
-              <p className="text-[#000000] text-[18px] font-semibold font-Montserrat">WELL DONE UTKU!</p>
-              <p className="text-[#000000] text-[16px] font-semibold font-Montserrat">You just delivered order #UP295YH!</p>
+              <p className="text-[#000000] text-[18px] font-semibold font-Montserrat">WELL DONE !</p>
+              <p className="text-[#000000] text-[16px] font-semibold font-Montserrat">Thank your for delievering!</p>
               <button
                 className="text-[#FFFFFF] text-[16px] font-Montserrat bg-[#57AF11] rounded-lg px-4 mt-4 h-[40.98px] w-[220px]"
                 onClick={closePickedup}
@@ -106,6 +111,13 @@ const PickedUp = () => {
             </div>
           </div>
         </div>
+      )}
+      					{show ? (
+        <div className="w-full h-screen fixed top-0 left-0 bg-[#b4cca1] opacity-80">
+          <Spinner className="" />
+        </div>
+      ) : (
+        ""
       )}
     </div>
     </>

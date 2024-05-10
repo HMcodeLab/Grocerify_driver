@@ -7,12 +7,14 @@ import { ReactComponent as Burger } from "../../assests/icons/burger.svg";
 import { ReactComponent as Bank } from "../../assests/icons/bank2.svg";
 import { getDataFromToken, getDeliveryboy, pickupdeliveryboyorder } from "../../helper/helper";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
+import { BASE_URL } from "../../api";
 // decline - open pop up ------ decline(my activity), continue(close pop up)
 // pickup - open pop up ------ pickup(pickedup)
 
 const Map1 = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [data, setdata] = useState([])
   const [isPickedup, setPickedup] = useState(false);
   let orderid = searchParams.get("id")
   
@@ -27,6 +29,15 @@ const Map1 = () => {
   useEffect(() => {
 		getData()
 	}, [searchParams.get("id")])
+  useEffect(() => {
+    async function Fetchdata(){
+      const data=await fetch(BASE_URL+'/api/getorderdetailsbyid/'+searchParams.get("id"))
+      const response=await data.json()
+      setdata(response?.order)
+      console.log(response);
+    }
+    Fetchdata()
+  }, [])
 
   const openPickedup = () => {
     setPickedup(true);
@@ -73,7 +84,7 @@ const Map1 = () => {
             backgroundImage: `url(${MapImg})`,
             backgroundPosition: "center",
             width: "430px",
-            height: "932px",
+            height: "832px",
           }}
         >
           <div onClick={openModel}>
@@ -84,17 +95,9 @@ const Map1 = () => {
           <div className="bg-[#FFFFFF] flex flex-row px-5 py-8">
             <div className="flex flex-col gap-6">
               <p className="text-[#333333] text-[16px] font-Montserrat font-semibold leading-5 w-[70%]">
-                {info?.all_orders.map((order, id)=>{
-                  if (order._id==orderid) {
-                    return(
-                      <span key={id}>
-                        {order.shipping_address.address_line_1}, {order.shipping_address.address_line_2},
-                              {order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.zip}
-                      </span>
-                    )
-                  }
-                })}
-
+                {
+                  data?.shop?.ShopAddress
+                }
               </p>
               {/* <p className="text-[#333333] text-[16px] font-Montserrat font-semibold leading-5 w-[70%]">
                 10min

@@ -27,7 +27,7 @@ const Login = () => {
 			})
 			if (data?.data) {
         console.log(data.data);
-				localStorage.setItem('token', data.data.token)
+				localStorage.setItem('deliverytoken', data?.data?.token)
 				if (!data.data.verified) {
 					toast.error(
 						'Account not verified yet. Kindly wait until it get verified.',

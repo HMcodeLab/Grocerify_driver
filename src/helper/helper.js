@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN || 'https://api.hopingminds.co.in';
 
 /** To get data from Token */
-const token = localStorage.getItem('token')
+const token = localStorage.getItem('deliverytoken')
 export async function getDataFromToken() {
     if (!token) return Promise.reject("Cannot find Token");
     let decode = jwtDecode(token)
@@ -50,7 +50,7 @@ export async function deliveryboyLoginWithEmail({ email, password }) {
 }
 
 export async function authenticatedeliveryboy({ mobile }) {
-    console.log(mobile);
+    // console.log(mobile);
     try {
         if (mobile) {
             return await axios.post('/api/authenticatedeliveryboy', { mobile })

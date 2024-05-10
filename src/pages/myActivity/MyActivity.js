@@ -8,6 +8,7 @@ import { ReactComponent as Time } from '../../assests/icons/time.svg'
 import toast, { Toaster } from 'react-hot-toast'
 import { getDataFromToken, getDeliveryboy, getdeliveryorders } from '../../helper/helper'
 import Login from '../login/Login'
+import Spinner from '../../components/Spinner'
 
 // accept delivery - accept
 
@@ -17,11 +18,15 @@ const MyActivity = () => {
 	const [deliveryData, setDeliveryData] = useState(null)
 	const [selectedStatus, setSelectedStatus] = useState('To Deliver')
 	const [info, setInfo] = useState(null)
+	const [show, setshow] = useState(false)
 	let navigate=useNavigate()
 	async function getData() {
+		setshow(true)
 		const { email } = await getDataFromToken()
+
 		const data = await getDeliveryboy({ email })
 		setInfo(data?.data?.data)
+		setshow(false)
 	}
 
 	useEffect(() => {
@@ -39,7 +44,7 @@ const MyActivity = () => {
 	function handleAccept(path) {
 		// console.log(path);
 		const toggleValue = localStorage.getItem('toggle');
-		console.log("Toggle Value:", toggleValue);
+		// console.log("Toggle Value:", toggleValue);
 		if (toggleValue !== 'true') {
 			toast.error('Your shift is not active');
 		} else {
@@ -318,7 +323,7 @@ const MyActivity = () => {
 	return (
 		<>
 			<Toaster />
-			{localStorage.getItem('token') ?
+			{localStorage.getItem('deliverytoken') ?
 			<div className="flex justify-center bg-gray-100">
 				<div className="flex flex-col gap-8 w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white">
 					<Header />
@@ -377,6 +382,13 @@ const MyActivity = () => {
 					<div className="flex flex-col gap-6 px-6">
 						{renderCards()}
 					</div>
+					{show ? (
+        <div className="w-full h-screen fixed top-0 left-0 bg-[#b4cca1] opacity-80">
+          <Spinner className="" />
+        </div>
+      ) : (
+        ""
+      )}
 				</div>
 			</div> : <Login/>}
 		</>
