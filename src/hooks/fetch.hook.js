@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN || 'http://api.hopingminds.co.in';
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN || 'https://mrvivek.online';
 
 
 /** custom hook */

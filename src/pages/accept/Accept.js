@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Header from "../../components/header/Header";
 import MapImg from "../../assests/images/map2.png";
 import { ReactComponent as Loc } from "../../assests/icons/location.svg";
@@ -16,6 +16,8 @@ import { BASE_URL } from "../../api.js";
 const Accept = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [longitude, setlongitude] = useState()
+  const [latitude, setlatitude] = useState()
   const [isAccept, setAccept] = useState(false);
   const [isDecline, setDecline] = useState(false);
   const [data, setdata] = useState([])
@@ -49,6 +51,17 @@ const Accept = () => {
     navigate("/myActivity");
   };
   
+  useEffect(() => {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        setlatitude(latitude)
+        setlongitude(longitude)
+        
+      });
+    
+  }, [])
+  
 
   return (
     <>
@@ -58,7 +71,19 @@ const Accept = () => {
         className={`flex flex-col w-[430px] h-[840px] my-[3%] overflow-y-auto scrollable-content bg-white`}
       >
         <Header />
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.8692862432147!2d-122.40779378591158!3d37.78371799999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808580d6b04c7e35%3A0x1f5f4f6d38409400!2sGolden+Gate+Bridge!5e0!3m2!1sen!2sus!4v1393483356000" width="600" height="450" ></iframe>
+        <div
+          className="flex flex-col justify-between"
+          style={{
+            backgroundImage: `url(${MapImg})`,
+            backgroundPosition: "center",
+            width: "430px",
+            height: "832px",
+          }}
+        >
+       <div className="w-full flex justify-center items-center h-full">
+       <Link target="_blank" className="bg-[#e4f7d4] text-[#57AF11] border border-[#57AF11] p-2" to={`https://www.google.com/maps/dir/${latitude},${longitude}/Sahibzada+Ajit+Singh+Nagar,+Punjab/@30.7220574,76.7283552,14z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x390fed0be66ec96b:0xa5ff67f9527319fe!2m2!1d76.7794179!2d30.7333148!1m5!1m1!1s0x390fee906da6f81f:0x512998f16ce508d8!2m2!1d76.7178726!2d30.7046486!3e9?authuser=0&entry=ttu`}>Open Map</Link>
+       </div>
+       </div>
 
         <div className="bg-[#FFFFFF] flex flex-col px-8 py-8 rounded-t-3xl shadow-lg gap-6">
           <div className="flex justify-center">

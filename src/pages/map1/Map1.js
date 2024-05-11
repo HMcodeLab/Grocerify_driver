@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../components/header/Header";
 import MapImg from "../../assests/images/map.png";
 import { ReactComponent as Loc } from "../../assests/icons/location.svg";
@@ -91,6 +91,9 @@ const Map1 = () => {
             <button className="text-[#FFFFFF] text-[16px] font-Inter bg-[#C7C3CA] rounded-lg py-1 px-6 mt-4 ml-6 w-[25%]">
               Back
             </button>
+          </div>
+          <div className="w-full flex justify-center items-center h-full">
+          <Link target="_blank" className="bg-[#e4f7d4] text-[#57AF11] border border-[#57AF11] p-2" to='https://www.google.com/maps/dir/Chandigarh/Sahibzada+Ajit+Singh+Nagar,+Punjab/@30.7220574,76.7283552,14z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x390fed0be66ec96b:0xa5ff67f9527319fe!2m2!1d76.7794179!2d30.7333148!1m5!1m1!1s0x390fee906da6f81f:0x512998f16ce508d8!2m2!1d76.7178726!2d30.7046486!3e9?authuser=0&entry=ttu'>Open Map</Link>
           </div>
           <div className="bg-[#FFFFFF] flex flex-row px-5 py-8">
             <div className="flex flex-col gap-6">
