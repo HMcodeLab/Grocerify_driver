@@ -81,7 +81,7 @@ const Accept = () => {
           }}
         >
        <div className="w-full flex justify-center items-center h-full">
-       <Link target="_blank" className="bg-[#e4f7d4] text-[#57AF11] border border-[#57AF11] p-2" to={`https://www.google.com/maps/dir/${latitude},${longitude}/Sahibzada+Ajit+Singh+Nagar,+Punjab/@30.7220574,76.7283552,14z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x390fed0be66ec96b:0xa5ff67f9527319fe!2m2!1d76.7794179!2d30.7333148!1m5!1m1!1s0x390fee906da6f81f:0x512998f16ce508d8!2m2!1d76.7178726!2d30.7046486!3e9?authuser=0&entry=ttu`}>Open Map</Link>
+       <Link target="_blank" className="bg-[#e4f7d4] text-[#57AF11] border border-[#57AF11] p-2" to={`https://www.google.com/maps/dir/${latitude},${longitude}/${data?.shop?.ShopAddress}`}>Open Map</Link>
        </div>
        </div>
 

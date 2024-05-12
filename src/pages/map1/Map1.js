@@ -15,6 +15,8 @@ const Map1 = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [data, setdata] = useState([])
+  const [longitude, setlongitude] = useState()
+  const [latitude, setlatitude] = useState()
   const [isPickedup, setPickedup] = useState(false);
   let orderid = searchParams.get("id")
   
@@ -34,7 +36,7 @@ const Map1 = () => {
       const data=await fetch(BASE_URL+'/api/getorderdetailsbyid/'+searchParams.get("id"))
       const response=await data.json()
       setdata(response?.order)
-      console.log(response);
+      // console.log(response);
     }
     Fetchdata()
   }, [])
@@ -52,7 +54,17 @@ const Map1 = () => {
 					})
     navigate(`/pickedUp?id=${orderid}`);
   };
+    
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      setlatitude(latitude)
+      setlongitude(longitude)
+      
+    });
   
+}, [])
   const [isOpen, setOpen] = useState(false);
   const openModel = () => {
     // setOpen(true);
@@ -93,7 +105,7 @@ const Map1 = () => {
             </button>
           </div>
           <div className="w-full flex justify-center items-center h-full">
-          <Link target="_blank" className="bg-[#e4f7d4] text-[#57AF11] border border-[#57AF11] p-2" to='https://www.google.com/maps/dir/Chandigarh/Sahibzada+Ajit+Singh+Nagar,+Punjab/@30.7220574,76.7283552,14z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x390fed0be66ec96b:0xa5ff67f9527319fe!2m2!1d76.7794179!2d30.7333148!1m5!1m1!1s0x390fee906da6f81f:0x512998f16ce508d8!2m2!1d76.7178726!2d30.7046486!3e9?authuser=0&entry=ttu'>Open Map</Link>
+          <Link target="_blank" className="bg-[#e4f7d4] text-[#57AF11] border border-[#57AF11] p-2" to={`https://www.google.com/maps/dir/${latitude},${longitude}/${data?.shop?.ShopAddress}`}>Open Map</Link>
           </div>
           <div className="bg-[#FFFFFF] flex flex-row px-5 py-8">
             <div className="flex flex-col gap-6">

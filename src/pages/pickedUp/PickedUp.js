@@ -6,11 +6,13 @@ import DeliverImg from "../../assests/images/deliver.png";
 import { deliverdeliveryboyorder, getDataFromToken, getDeliveryboy } from "../../helper/helper";
 import toast, { ToastBar, Toaster } from "react-hot-toast";
 import Spinner from "../../components/Spinner";
+import { BASE_URL } from "../../api";
 // delivered - pop up (done) ------- back to orders(my activity)
 
 const PickedUp = () => {
   const navigate = useNavigate();
   const [show, setshow] = useState(false)
+  const [data, setdata] = useState([])
 
   const [isPickedup, setPickedup] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -25,6 +27,15 @@ const PickedUp = () => {
 		setInfo(data?.data?.data)
     setshow(false)
 	}
+  useEffect(() => {
+    async function Fetchdata(){
+      const data=await fetch(BASE_URL+'/api/getorderdetailsbyid/'+searchParams.get("id"))
+      const response=await data.json()
+      setdata(response?.order)
+      console.log(response);
+    }
+    Fetchdata()
+  }, [])
   
   useEffect(() => {
 		getData()
@@ -44,7 +55,18 @@ const PickedUp = () => {
     setPickedup(false);
     navigate("/myActivity");
   };
-
+  const [longitude, setlongitude] = useState()
+  const [latitude, setlatitude] = useState()
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      setlatitude(latitude)
+      setlongitude(longitude)
+      
+    });
+  
+}, [])
 
   return (
     <>
@@ -66,21 +88,17 @@ const PickedUp = () => {
           }}
         >
             <div className="w-full flex justify-center items-center h-full">
-          <Link target="_blank" className="bg-[#e4f7d4] text-[#57AF11] border border-[#57AF11] p-2" to='https://www.google.com/maps/dir/Chandigarh/Sahibzada+Ajit+Singh+Nagar,+Punjab/@30.7220574,76.7283552,14z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x390fed0be66ec96b:0xa5ff67f9527319fe!2m2!1d76.7794179!2d30.7333148!1m5!1m1!1s0x390fee906da6f81f:0x512998f16ce508d8!2m2!1d76.7178726!2d30.7046486!3e9?authuser=0&entry=ttu'>Open Map</Link>
+            <Link target="_blank" className="bg-[#e4f7d4] text-[#57AF11] border border-[#57AF11] p-2" to={`https://www.google.com/maps/dir/${latitude},${longitude}/${data?.shipping_address?.address_line_1},${data?.shipping_address?.address_line_2},
+                              ${data?.shipping_address?.city},${data?.shipping_address?.state},${data?.shipping_address?.zip}`}>Open Map</Link>
           </div>
           <div className="bg-[#FFFFFF] flex flex-row px-5 py-8">
             <div className="flex flex-col gap-6">
               <p className="text-[#333333] text-[16px] font-Montserrat font-semibold leading-5 w-[70%]">
-              {info?.all_orders.map((order, id)=>{
-                  if (order?._id==orderid) {
-                    return(
-                      <span key={id}>
-                        {order?.shipping_address?.address_line_1}, {order?.shipping_address?.address_line_2},
-                              {order?.shipping_address?.city}, {order?.shipping_address?.state} - {order?.shipping_address?.zip}
+
+                      <span >
+                        {data?.shipping_address?.address_line_1}, {data?.shipping_address?.address_line_2},
+                              {data?.shipping_address?.city}, {data?.shipping_address?.state} - {data?.shipping_address?.zip}
                       </span>
-                    )
-                  }
-                })}
               </p>
             </div>
             <div className="flex flex-col justify-end gap-6">
